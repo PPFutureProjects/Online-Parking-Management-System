@@ -1,0 +1,21 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+.page-heading{
+    text-align :center;
+    font-family :sans-serif;
+    color :#546E7A
+}
+
+.hr{
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #607D8B, #ccc);
+}
+.center-list {
+    margin : auto; 
+    height:90px;
+    width:220px;
+}

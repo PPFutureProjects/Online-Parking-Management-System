@@ -1,0 +1,40 @@
+<div style="text-align :center">
+
+  <form [formGroup]="demoForm">
+     <div style="margin: 3%;">
+      <md-select placeholder="select date" formControlName="dateOptions">
+        <md-option *ngFor="let date of dates" [value]="date.value">
+          {{ date.viewValue }}
+        </md-option>
+      </md-select>
+      <br><br><br>
+    </div>
+    <div style="margin: 3%;">
+      <md-select placeholder="select time" formControlName="timeOptions">
+        <md-option *ngFor="let time of times" [value]="time.value">
+          {{ time.viewValue }}
+        </md-option>
+      </md-select>
+      <br><br><br>
+    </div>
+    <div style="margin: 3%;">
+      <md-select placeholder="select reserved hours" #t formControlName="reservedHoursOptions">
+        <md-option *ngFor="let reservedHour of reserved_hours" #c [value]="reservedHour.value">
+          {{ reservedHour.viewValue }} 
+          {{t.value}}
+        </md-option>
+        {{t.value}}
+      </md-select>
+      {{t.value}}
+      <br><br><br>
+    </div>
+    <button color="primary" md-raised-button (click)="submit()">Submit</button>
+  </form>
+
+</div>
+<div>
+
+ 
+  <button color="primary" md-raised-button (click)="slots('1',t.value)" *ngIf="isSlot1">slot 1</button>
+  <button color="primary" md-raised-button (click)="slots('2')">slot 2</button>
+</div>
