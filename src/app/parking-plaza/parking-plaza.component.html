@@ -34,10 +34,20 @@
 </div>
 <div>
 
- 
-  <button color="primary" md-raised-button [disabled]="isDisabled" (click)="slots('1',t.value)" *ngIf="isSlot1">slot 1</button>
+ <div *ngIf="allSlots">
+<div  *ngFor="let a of buttons">
+	<div *ngIf="a.reserved == false">
+    <button color="primary" style="margin : 10px" md-raised-button (click)="slots(a.slotNumber)">Slot {{a.slotNumber}}</button>
+	</div>
+<div  *ngIf="a.reserved == true">
+   <button style="color : yellow" md-raised-button >{{a.slotNumber}}</button>
+</div>
+</div>
+</div>
+
+  <!-- <button color="primary" md-raised-button [disabled]="isDisabled" (click)="slots('1',t.value)" *ngIf="isSlot1">slot 1</button>
   <button color="primary" md-raised-button (click)="slots('2')">slot 2</button>
   <button color="primary" md-raised-button (click)="slots('3')">slot 3</button>
-  <button color="primary" md-raised-button (click)="slots('4')">slot 4</button>
+  <button color="primary" md-raised-button (click)="slots('4')">slot 4</button> -->
 
 </div>

@@ -27,6 +27,8 @@ export class ParkingPlazaComponent implements OnInit {
 	allUsersTimeAndDate;
 	currentUserKey;
 	isDisabled = false;
+	slot;
+	allSlots = false;
 	currentUserSelectedDate;
 	currentUserTimeDuration;
 	currentUserOfParkingPlaza: FirebaseObjectObservable<any>;
@@ -62,6 +64,14 @@ export class ParkingPlazaComponent implements OnInit {
 		{ value: '7-hours', viewValue: '7 hours' }
 	];
 
+	buttons = [
+		{ reserved: false, slotNumber: 1 },
+		{ reserved: false, slotNumber: 2 },
+		{ reserved: false, slotNumber: 3 },
+		{ reserved: false, slotNumber: 4 },
+		{ reserved: false, slotNumber: 5 }
+	]
+
 
 	constructor(private fb: FormBuilder,
 		private db: AngularFireDatabase,
@@ -74,25 +84,25 @@ export class ParkingPlazaComponent implements OnInit {
 	ngOnInit() {
 
 
-		this.items = this.db.list('/users/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
-		this.items
-			.subscribe(snapshots => {
-				snapshots.forEach(snapshot => {
-					console.log(snapshot.key)
-					console.log(snapshot.val());
+		// this.items = this.db.list('/users/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
+		// this.items
+		// 	.subscribe(snapshots => {
+		// 		snapshots.forEach(snapshot => {
+		// 			console.log(snapshot.key)
+		// 			console.log(snapshot.val());
 
 
-					//  debugger;
-					//   if (snapshot.val().selectedDate == '270717' && snapshot.val().startTime == 1 && snapshot.val().endTime == 4 && snapshot.val().inBetweenTime == '2,3,4 hours' && snapshot.val().slot == 1) {
-					// console.log(snapshot.val());
-					//   console.log('asdasd');
-					// this.isSlot1 = false;
+		//  debugger;
+		//   if (snapshot.val().selectedDate == '270717' && snapshot.val().startTime == 1 && snapshot.val().endTime == 4 && snapshot.val().inBetweenTime == '2,3,4 hours' && snapshot.val().slot == 1) {
+		// console.log(snapshot.val());
+		//   console.log('asdasd');
+		// this.isSlot1 = false;
 
 
 
-					//   }
-				});
-			})
+		//   }
+		// 	});
+		// })
 
 		this.demoForm = this.fb.group({
 			timeOptions: '',
@@ -100,16 +110,28 @@ export class ParkingPlazaComponent implements OnInit {
 			dateOptions: ''
 		});
 
-
-
+		
 
 
 		/////////////////////////
 
+
+
+
+		///////
+
+
+
+
+
+
+	}
+	fetchAllUsers() {
 		//fetch all users
 		this.fetchDataOfParkingPlaza = this.db.list('parking-plaza', { preserveSnapshot: true });
 		this.fetchDataOfParkingPlaza
 			.subscribe(snapshots => {
+				// this.selectedDateArray = [];
 				snapshots.forEach(snapshot => {
 					// user uid
 					console.log(snapshot.key)
@@ -117,74 +139,80 @@ export class ParkingPlazaComponent implements OnInit {
 					console.log(snapshot.val())
 
 					snapshot.forEach(snapshot => {
+
 						console.log(snapshot.key)
 						console.log(snapshot.val());
 						this.selectedDate = snapshot.val().selectedDate;
 						this.timeDuration = snapshot.val().timeDuration;
 						console.log(this.selectedDate);
-						this.selectedDateArray.push(this.selectedDate,this.timeDuration);
+						this.selectedDateArray.push(this.selectedDate, this.timeDuration);
 						console.log(this.selectedDateArray);
-						
-						
+
+
 
 					});
 
 				});
 			});
+			this.fetchCurrentUser();
+	}
 
+	fetchCurrentUser() {
+		console.log('hello 2nd function!');
+		
 		//   fetch current user
 		this.currentUserKey = localStorage.getItem('firebaseToken');
 		console.log(this.currentUserKey);
-
+         console.log('hello 2nd function!');
 
 		this.currentUserOfParkingPlaza = this.db.object('parking-plaza' + "/" + this.currentUserKey, { preserveSnapshot: true });
 		this.currentUserOfParkingPlaza
 			.subscribe(snapshots => {
+				
 				snapshots.forEach(snapshot => {
+					// this.selectedDateArray = [];
 					console.log(snapshot.key);
-				    this.currentUserSelectedDate = snapshot.val().selectedDate;
+					this.currentUserSelectedDate = snapshot.val().selectedDate;
 					this.currentUserTimeDuration = snapshot.val().timeDuration;
 					console.log(this.selectedDate);
 					console.log(this.selectedDateArray);
-					this.selectedDateArray.forEach((data)=>{
-                      console.log(data);
-					 this.allUsersTimeAndDate = data;
-					  console.log(this.currentUserSelectedDate);
-				
-					for(let i =0; i < this.selectedDateArray.length; i++){
-						if(this.selectedDateArray[i] == this.currentUserSelectedDate){
-							console.log('on right way  1!');
-						  if(this.selectedDateArray[i + 1] == this.currentUserTimeDuration){
-						  if(snapshot.val().slotBook == false){
-							  console.log('demo');
-							  
-                            this.isDisabled = true;
-						  }
-						 
-						   
-						  }	
+					this.selectedDateArray.forEach((data) => {
+
+						console.log(data);
+						this.allUsersTimeAndDate = data;
+						console.log(this.currentUserSelectedDate);
+
+						for (let i = 0; i < this.selectedDateArray.length; i++) {
+							if (this.selectedDateArray[i] == this.currentUserSelectedDate) {
+								console.log('on right way  1!');
+								if (this.selectedDateArray[i + 1] == this.currentUserTimeDuration) {
+									console.log(this.selectedDateArray[i + 1]);
+
+									if (snapshot.val().slot) {
+										console.log(snapshot.val().slot);
+
+										this.slot = snapshot.val().slot;
+
+										//for (let i = 0; i < this.buttons.length; i++) {
+										this.buttons[this.slot - 1].reserved = true;
+										//}
+										// this.buttons[this.slot]
+										console.log('demo');
+										this.allSlots = true;
+										
+									}
+								}
+							}
 						}
-					}  
-					//  if(this.allUsersTimeAndDate == this.currentUserSelectedDate && this.allUsersTimeAndDate == this.currentUserTimeDuration){
-					// 	 console.log(snapshot.val().slot)
-					//  } 
 					})
-					
 				});
 			})
-
-			
-			
-
-
-
 	}
-
-	slots(slotNumber, t) {
+	slots(slotNumber) {
 		console.log(slotNumber);
-		console.log(t)
 
 
+        
 		this.selectedDate = parseInt(this.demoForm.value.dateOptions)
 		console.log(this.selectedDate);
 
@@ -213,10 +241,14 @@ export class ParkingPlazaComponent implements OnInit {
 			selectedDate: this.selectedDate, slotBook: false,
 			endTime: this.endTime, timeDuration: this.timeOption + ' to ' + this.endTime
 		})
-
+        //    this.selectedDateArray = [];
 	}
 	submit() {
-		this.ngOnInit()
+		// this.ngOnInit()
+		this.fetchAllUsers();
+	    
+		
+	
 	}
 
 
@@ -225,3 +257,13 @@ export class ParkingPlazaComponent implements OnInit {
 	}
 
 }
+
+
+
+
+
+
+
+
+
+
