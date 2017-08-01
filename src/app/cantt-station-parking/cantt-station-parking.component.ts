@@ -13,7 +13,7 @@ import { AuthService } from "../providers/auth.service";
 export class CanttStationParkingComponent implements OnInit {
 
    demoForm: FormGroup;
-  selectedDate;
+  selectedDate;    
   timeOption;
   reservedHours;
   totalBookingHours;

@@ -8,7 +8,8 @@ import * as firebase from 'firebase';
 export class AuthService {
 
   authState: any = null;
- 
+ localStorage;
+ storage;
   constructor(private afAuth: AngularFireAuth,
               private db: AngularFireDatabase,
               private router:Router) { 
@@ -59,8 +60,13 @@ export class AuthService {
      return this.afAuth.auth.signInWithEmailAndPassword(email, password)
        .then((user) => {
          this.authState = user
-         console.log(this.authState);
-          this.router.navigate(['/dashboard'])
+		 console.log(this.authState);
+		localStorage.setItem('firebaseToken',this.afAuth.auth.currentUser.uid);
+		this.storage = localStorage.getItem('firebaseToken') 
+		console.log(this.storage);
+		  
+		
+		this.router.navigate(['/dashboard'])
            
        })
        .catch(error => console.log(error));
