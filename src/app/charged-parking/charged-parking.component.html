@@ -1,14 +1,21 @@
+<md-toolbar color="primary">
+
+  Parking-Management System
+  <span class="example-spacer"></span>
+  <button md-button color="warn" (click)="signOut()">SIGN OUT</button>
+
+</md-toolbar>
+
 <div style="text-align :center">
 
-  <form [formGroup]="demoForm">
-     <div style="margin: 3%;">
-      <md-select placeholder="select date" formControlName="dateOptions">
-        <md-option *ngFor="let date of dates" [value]="date.value">
-          {{ date.viewValue }}
-        </md-option>
-      </md-select>
-      <br><br><br>
-    </div>
+  <form [formGroup]="chargedParkingForm">
+
+	<md-input-container>
+  <input mdInput [mdDatepicker]="picker" [min]="minDate" placeholder="Choose a date" formControlName="dateOptions">
+  <button mdSuffix [mdDatepickerToggle]="picker"></button>
+</md-input-container>
+<md-datepicker #picker></md-datepicker>
+
     <div style="margin: 3%;">
       <md-select placeholder="select time" formControlName="timeOptions">
         <md-option *ngFor="let time of times" [value]="time.value">
@@ -34,7 +41,15 @@
 </div>
 <div>
 
- 
-  <button color="primary" md-raised-button (click)="slots('1',t.value)" *ngIf="isSlot1">slot 1</button>
-  <button color="primary" md-raised-button (click)="slots('2')">slot 2</button>
+ <div *ngIf="allSlots">
+<div  *ngFor="let a of buttons">
+	<div *ngIf="a.reserved == false">
+    <button color="primary" style="margin : 10px" md-raised-button (click)="slots(a.slotNumber)">Slot {{a.slotNumber}}</button>
+	</div>
+<div  *ngIf="a.reserved == true">
+   <button style="color : black; background : yellow" md-raised-button>Booked</button>
+</div>
+</div>
+</div>
+
 </div>

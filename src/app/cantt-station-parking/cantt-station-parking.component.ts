@@ -1,133 +1,190 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
-
+import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseObjectObservable, FirebaseListObservable } from 'angularfire2/database';
+import { Router } from "@angular/router";
 import { AuthService } from "../providers/auth.service";
 
 @Component({
-  selector: 'cantt-station-parking',
-  templateUrl: './cantt-station-parking.component.html',
-  styleUrls: ['./cantt-station-parking.component.css']
+	selector: 'cantt-station-parking',
+	templateUrl: './cantt-station-parking.component.html',
+	styleUrls: ['./cantt-station-parking.component.css']
 })
 export class CanttStationParkingComponent implements OnInit {
 
-   demoForm: FormGroup;
-  selectedDate;    
-  timeOption;
-  reservedHours;
-  totalBookingHours;
-  inBetweenTime;
-  endTime;
-  isSlot1 = true;
-  arr = [];
 
-  items: FirebaseListObservable<any>;
+	canttStationParkingForm: FormGroup;
 
 
-  dates = [
-    { value: "270717", viewValue: '27-07-17' },
-    { value: '280717', viewValue: '28/07/17' },
-    { value: '290717', viewValue: '29/07/17' },
-    { value: '300717', viewValue: '30/07/17' }
-  ];
 
-  times = [
-    { value: '1-pm', viewValue: '1 pm' },
-    { value: '2-pm', viewValue: '2 pm' },
-    { value: '3-pm', viewValue: '3 pm' },
-    { value: '4-pm', viewValue: '4 pm' },
-    { value: '5-pm', viewValue: '5 pm' },
-    { value: '6-pm', viewValue: '6 pm' },
-    { value: '7-pm', viewValue: '7 pm' }
-  ];
+	items: FirebaseListObservable<any>;
+	// var of all users
+	allUsersSelectedDate;
+	allUsersTimeDuration;
+	allUsersStartTime;
+	allUsersEndTime;
+	allUserstimeDateAndSlotArray = [];
+	minDate = new Date();
+	// var of current user
+	date;
+	initializeTime;
+	reservedHours;
+	totalBookingHours;
+	TimeDuration;
+	slot;
 
-  reserved_hours = [
-    { value: '1-hour', viewValue: '1 hour' },
-    { value: '2-hours', viewValue: '2 hours' },
-    { value: '3-hours', viewValue: '3 hours' },
-    { value: '4-hours', viewValue: '4 hours' },
-    { value: '5-hours', viewValue: '5 hours' },
-    { value: '6-hours', viewValue: '6 hours' },
-    { value: '7-hours', viewValue: '7 hours' }
-  ];
+	allSlots;
+	month;
+
+	// var of slots Func
+	sendUserBookingData: FirebaseListObservable<any>;
+
+	fetchAllUsers: FirebaseObjectObservable<any>;
 
 
-  constructor(private fb: FormBuilder,
-    private db: AngularFireDatabase,
-    private afAuth: AngularFireAuth,
-    private authService: AuthService
-  ) { }
+	times = [
+		{ value: '9-am', viewValue: '9:00' },
+		{ value: '10-am', viewValue: '10:00' },
+		{ value: '11-am', viewValue: '11:00' },
+		{ value: '12-am', viewValue: '12:00' },
+		{ value: '1-pm', viewValue: '13:00' },
+		{ value: '2-pm', viewValue: '14:00' },
+		{ value: '3-pm', viewValue: '15:00' },
+		{ value: '4-pm', viewValue: '16:00' },
+		{ value: '5-pm', viewValue: '17:00' },
+		{ value: '6-pm', viewValue: '18:00' },
+		{ value: '7-pm', viewValue: '19:00' },
+		{ value: '8-pm', viewValue: '20:00' },
+		{ value: '9-pm', viewValue: '21:00' }
+	];
 
-  ngOnInit() {
+	reserved_hours = [
+		{ value: '1-hour', viewValue: '1 hour' },
+		{ value: '2-hours', viewValue: '2 hours' },
+		{ value: '3-hours', viewValue: '3 hours' },
+		{ value: '4-hours', viewValue: '4 hours' },
+		{ value: '5-hours', viewValue: '5 hours' },
+		{ value: '6-hours', viewValue: '6 hours' },
+		{ value: '7-hours', viewValue: '7 hours' }
+	];
 
-    this.items = this.db.list('/users' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
-    this.items
-      .subscribe(snapshots => {
-        snapshots.forEach(snapshot => {
-          console.log(snapshot.key)
-          console.log(snapshot.val());
-          console.log(snapshot.val().selectedDate);
-          
-          //  debugger;
-          if (snapshot.val().selectedDate == '270717' && snapshot.val().startTime == 1 && snapshot.val().endTime == 4 && snapshot.val().inBetweenTime == '2,3,4 hours' && snapshot.val().slot == 1) {
-          // console.log(snapshot.val());
-          console.log('asdasd');
-          // this.isSlot1 = false;
-          
-          
-
-          }
-        });
-      })
-
-    this.demoForm = this.fb.group({
-      timeOptions: '',
-      reservedHoursOptions: '',
-      dateOptions: ''
-    })
-  }
-
-  slots(slotNumber,t) {
-    console.log(slotNumber);
-    console.log(t)
-    
-
-    this.selectedDate = parseInt(this.demoForm.value.dateOptions)
-    console.log(this.selectedDate);
-
-    this.timeOption = parseInt(this.demoForm.value.timeOptions);
-    this.reservedHours = parseInt(this.demoForm.value.reservedHoursOptions);
+	buttons = [
+		{ reserved: false, slotNumber: 1 },
+		{ reserved: false, slotNumber: 2 },
+		{ reserved: false, slotNumber: 3 },
+		{ reserved: false, slotNumber: 4 },
+		{ reserved: false, slotNumber: 5 }
+	]
 
 
-    this.totalBookingHours = this.timeOption + this.reservedHours;
+	constructor(private fb: FormBuilder,
+		private db: AngularFireDatabase,
+		private afAuth: AngularFireAuth,
+		private authService: AuthService,
+		private router: Router,
+	) {
 
-    this.arr = [];
-    for (let i = this.timeOption; i < this.totalBookingHours; i++) {
-      this.inBetweenTime = i + 1;
-      // console.log(this.inBetweenTime);
+	}
 
-      this.arr.push(this.inBetweenTime)
+	ngOnInit() {
 
-      console.log(this.arr);
+		this.canttStationParkingForm = this.fb.group({
+			timeOptions: '',
+			reservedHoursOptions: '',
+			dateOptions: '',
 
-    }
-    this.endTime = this.arr[this.arr.length - 1]
-    console.log(this.endTime)
-    this.items = this.db.list('users' + "/" + this.afAuth.auth.currentUser.uid);
-    this.items.push({
-      startTime: this.timeOption, reservedHours: this.reservedHours + ' hours',
-      inBetweenTime: this.arr + ' hours', slot: slotNumber, 
-      selectedDate: this.selectedDate,slotBook : false,
-      endTime: this.endTime, timeDuration: this.timeOption + ' to ' + this.endTime
-    })
+		});
 
-  }
-  submit() { }
+		this.fetchAllUsers = this.db.object('cantt-station', { preserveSnapshot: true });
+		this.fetchAllUsers
+			.subscribe(snapshots => {
+				snapshots.forEach(snapshot => {
+					// all users uid
+					console.log(snapshot.key)
+					console.log(snapshot.val())
+
+					snapshot.forEach(snapshot => {
+
+						console.log(snapshot.key)
+						console.log(snapshot.val())
+						this.allUsersSelectedDate = snapshot.val().selectedDate;
+						this.allUsersStartTime = snapshot.val().startTime
+						this.allUsersEndTime = snapshot.val().endTime
+						this.allUsersTimeDuration = snapshot.val().timeDuration;
+						this.allUserstimeDateAndSlotArray.push(this.allUsersSelectedDate, this.allUsersTimeDuration, snapshot.val().slot, this.allUsersStartTime, this.allUsersEndTime)
 
 
-signOut(){
-this.authService.signOut();
-}
+					});
+				});
+			})
 
+	}
+
+
+	submit() {
+		for (var i = 0; i < this.buttons.length; i++) {
+			this.buttons[i].reserved = false;
+		}
+		console.log(this.canttStationParkingForm.value);
+		console.log(this.canttStationParkingForm.value.dateOptions.getMonth() + 1)
+		console.log(this.canttStationParkingForm.value.dateOptions.getDate());
+		console.log(this.canttStationParkingForm.value.dateOptions.getYear());
+		this.date = this.canttStationParkingForm.value.dateOptions.getMonth() + 1 + "-" + this.canttStationParkingForm.value.dateOptions.getDate() + "-" + this.canttStationParkingForm.value.dateOptions.getYear();
+		console.log(this.date);
+		this.initializeTime = parseInt(this.canttStationParkingForm.value.timeOptions);
+		this.reservedHours = parseInt(this.canttStationParkingForm.value.reservedHoursOptions);
+		this.totalBookingHours = this.initializeTime + this.reservedHours;
+
+		this.TimeDuration = this.initializeTime + " to " + this.totalBookingHours;
+		console.log(this.allUserstimeDateAndSlotArray);
+
+		for (let i = 0; i < this.allUserstimeDateAndSlotArray.length; i++) {
+			if (this.allUserstimeDateAndSlotArray[i] == this.date) {
+				if ((this.initializeTime >= this.allUserstimeDateAndSlotArray[i + 3] &&
+					this.initializeTime < this.allUserstimeDateAndSlotArray[i + 4])
+					||
+					(this.totalBookingHours <= this.allUserstimeDateAndSlotArray[i + 4] &&
+						this.totalBookingHours > this.allUserstimeDateAndSlotArray[i + 3])
+				) {
+
+					console.log(this.allUserstimeDateAndSlotArray[i + 2]);
+					this.slot = this.allUserstimeDateAndSlotArray[i + 2];
+					this.buttons[this.slot - 1].reserved = true;
+				}
+
+
+				else if ((this.initializeTime < this.allUserstimeDateAndSlotArray[i + 3])
+					&&
+					this.totalBookingHours > this.allUserstimeDateAndSlotArray[i + 4]
+				) {
+					console.log(this.allUserstimeDateAndSlotArray[i + 2]);
+					this.slot = this.allUserstimeDateAndSlotArray[i + 2];
+					this.buttons[this.slot - 1].reserved = true;
+				}
+			}
+		}
+		this.allSlots = true;
+
+
+	}
+
+	slots(slotNumber) {
+		console.log(this.canttStationParkingForm.value);
+
+		// this.date = parseInt(this.demoForm.value.dateOptions);
+		this.date = this.canttStationParkingForm.value.dateOptions.getMonth() + 1 + "-" + this.canttStationParkingForm.value.dateOptions.getDate() + "-" + this.canttStationParkingForm.value.dateOptions.getYear();
+		this.initializeTime = parseInt(this.canttStationParkingForm.value.timeOptions);
+		this.reservedHours = parseInt(this.canttStationParkingForm.value.reservedHoursOptions);
+		this.totalBookingHours = this.initializeTime + this.reservedHours;
+
+		this.TimeDuration = this.initializeTime + " to " + this.totalBookingHours;
+
+		this.sendUserBookingData = this.db.list('cantt-station' + "/" + this.afAuth.auth.currentUser.uid);
+		this.sendUserBookingData.push({ uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date, startTime: this.initializeTime, endTime: this.totalBookingHours, timeDuration: this.TimeDuration, slot: slotNumber })
+
+		this.router.navigate(['/dashboard'])
+	}
+	signOut() {
+		this.authService.signOut();
+	}
 }

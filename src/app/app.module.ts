@@ -28,6 +28,11 @@ import {MdListModule} from '@angular/material';
 import {MdCardModule} from '@angular/material';
 import {MdInputModule} from '@angular/material';
 import {MdProgressSpinnerModule} from '@angular/material';
+import {MdDatepickerModule} from '@angular/material';
+import {MdNativeDateModule} from '@angular/material';
+import {MdTableModule,} from '@angular/material';
+import {CdkTableModule} from "@angular/cdk";
+
 
 // services
 import { AuthService } from "./providers/auth.service";
@@ -36,6 +41,8 @@ import { ParkingPlazaComponent } from './parking-plaza/parking-plaza.component';
 import { ChargedParkingComponent } from './charged-parking/charged-parking.component';
 import { CanttStationParkingComponent } from './cantt-station-parking/cantt-station-parking.component';
 import { RootDashboardComponent } from './root-dashboard/root-dashboard.component';
+import { BookingsComponent } from './bookings/bookings.component';
+import { TableFilteringExample } from './tables/tables.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +54,9 @@ import { RootDashboardComponent } from './root-dashboard/root-dashboard.componen
     ParkingPlazaComponent,
     ChargedParkingComponent,
     CanttStationParkingComponent,
-    RootDashboardComponent
+    RootDashboardComponent,
+    BookingsComponent,
+    TableFilteringExample
   ],
   imports: [
     BrowserModule,
@@ -64,7 +73,12 @@ import { RootDashboardComponent } from './root-dashboard/root-dashboard.componen
     MdToolbarModule,
     MdListModule,
     MdCardModule,
-    MdInputModule
+	MdInputModule,
+	MdDatepickerModule,
+	MdNativeDateModule,
+	MdTableModule,
+	CdkTableModule
+
     
 
 
