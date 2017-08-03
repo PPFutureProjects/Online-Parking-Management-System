@@ -8,20 +8,29 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/observable/fromEvent';
-
+export type UserProperties = 'userId' | 'userName' | 'progress' | 'color' | undefined;
 @Component({
   selector: 'app-tables',
   styleUrls: ['tables.component.css'],
   templateUrl: 'tables.component.html',
 })
 export class TableFilteringExample {
-  displayedColumns = ['userId', 'userName', 'progress', 'color'];
-  exampleDatabase = new ExampleDatabase();
-  dataSource: ExampleDataSource | null;
+	////
 
+	  dynamicColumnDefs: any[] = [];
+	  dynamicColumnIds: string[] = [];
+
+
+ //   displayedColumns = ['userId', 'userName', 'progress', 'color'];
+ 
+
+ exampleDatabase = new ExampleDatabase();
+  dataSource: ExampleDataSource | null;
+  displayedColumns: UserProperties[] = [];
   @ViewChild('filter') filter: ElementRef;
 
   ngOnInit() {
+	   this.displayedColumns = ['userId', 'userName', 'progress', 'color'];
     this.dataSource = new ExampleDataSource(this.exampleDatabase);
     Observable.fromEvent(this.filter.nativeElement, 'keyup')
         .debounceTime(150)
@@ -29,7 +38,14 @@ export class TableFilteringExample {
         .subscribe(() => {
           if (!this.dataSource) { return; }
           this.dataSource.filter = this.filter.nativeElement.value;
-        });
+		});
+		const nextProperty = this.displayedColumns[this.dynamicColumnDefs.length]
+		this.dynamicColumnDefs.push({
+		 id : nextProperty.toUpperCase(),
+		 property : nextProperty, 
+		 headerText : nextProperty
+		})
+		this.dynamicColumnIds = this.dynamicColumnDefs.map(columnDef => columnDef.id); 
   }
 }
 

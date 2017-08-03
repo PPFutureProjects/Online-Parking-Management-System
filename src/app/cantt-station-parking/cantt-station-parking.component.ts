@@ -16,7 +16,8 @@ export class CanttStationParkingComponent implements OnInit {
 	canttStationParkingForm: FormGroup;
 
 
-
+    showCurrentBooking = false;
+	showCanttStation = true;
 	items: FirebaseListObservable<any>;
 	// var of all users
 	allUsersSelectedDate;
@@ -40,6 +41,12 @@ export class CanttStationParkingComponent implements OnInit {
 	sendUserBookingData: FirebaseListObservable<any>;
 
 	fetchAllUsers: FirebaseObjectObservable<any>;
+
+	 fetchBooking : FirebaseListObservable<any>;
+
+    fetchBookingForCancel : FirebaseListObservable<any>
+	currentBookingKey;
+	userBookingArray = [];
 
 
 	times = [
@@ -167,8 +174,13 @@ export class CanttStationParkingComponent implements OnInit {
 
 
 	}
-
+	obj: {
+		date: '',
+		slotNum: '',
+		timeDuration: '',
+	}
 	slots(slotNumber) {
+		this.obj = { date: '', slotNum: '', timeDuration: '' };
 		console.log(this.canttStationParkingForm.value);
 
 		// this.date = parseInt(this.demoForm.value.dateOptions);
@@ -180,10 +192,67 @@ export class CanttStationParkingComponent implements OnInit {
 		this.TimeDuration = this.initializeTime + " to " + this.totalBookingHours;
 
 		this.sendUserBookingData = this.db.list('cantt-station' + "/" + this.afAuth.auth.currentUser.uid);
-		this.sendUserBookingData.push({ uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date, startTime: this.initializeTime, endTime: this.totalBookingHours, timeDuration: this.TimeDuration, slot: slotNumber })
+		this.sendUserBookingData.push({place : 'cantt-station', uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date,
+		 startTime: this.initializeTime, endTime: this.totalBookingHours, timeDuration: this.TimeDuration, slot: slotNumber })
 
-		this.router.navigate(['/dashboard'])
+		this.showCanttStation = false;
+		this.showCurrentBooking = true;
+
+		this.obj.date = this.date;
+		this.obj.slotNum = slotNumber;
+		this.obj.timeDuration = this.TimeDuration;
+
+		this.userBookingArray.push(this.obj);
+
+
+		this.getCurrentBooking(this.date, this.TimeDuration);
 	}
+
+	
+	getCurrentBooking(date, timeDuration) {
+
+
+		this.fetchBooking = this.db.list('cantt-station/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
+		this.fetchBooking
+			.subscribe(snapshots => {
+				snapshots.forEach(snapshot => {
+					console.log(snapshot.key)
+					if (snapshot.val().selectedDate == date && snapshot.val().timeDuration == timeDuration) {
+						// Current booking key
+						this.currentBookingKey = snapshot.key
+						console.log(snapshot.key);
+						console.log(snapshot.val())
+					}
+				});
+			});
+
+
+	}
+	cancelBooking() {
+
+		this.fetchBookingForCancel = this.db.list('cantt-station/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
+		this.fetchBookingForCancel
+			.subscribe(snapshots => {
+				this.userBookingArray = [];
+				snapshots.forEach(snapshot => {
+					console.log(snapshot.key)
+					console.log(snapshot.val())
+					if (snapshot.key == this.currentBookingKey) {
+						console.log(snapshot.key);
+						console.log(snapshot.val());
+						this.fetchBookingForCancel.remove(snapshot.key)
+
+
+
+					}
+				});
+			})
+		setTimeout(() => {
+			
+			this.router.navigate(['dashboard'])
+		}, 1000)
+	}
+
 	signOut() {
 		this.authService.signOut();
 	}

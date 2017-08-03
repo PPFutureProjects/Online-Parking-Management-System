@@ -36,12 +36,18 @@ export class ParkingPlazaComponent implements OnInit {
 
 	items: FirebaseListObservable<any>;
 	minDate = new Date();
+	showCurrentBooking = false;
+	showParkingPlaza = true;
+	currentBookingKey;
 	// var of all users
 	allUsersSelectedDate;
 	allUsersTimeDuration;
 	allUsersStartTime;
 	allUsersEndTime;
+	currentNode;
+	userUid;
 	allUserstimeDateAndSlotArray = [];
+	userBookingArray = [];
 
 	// var of current user
 	date;
@@ -50,13 +56,15 @@ export class ParkingPlazaComponent implements OnInit {
 	totalBookingHours;
 	TimeDuration;
 	slot;
-
+	slotNumber;
 	allSlots;
 	month;
 
 	// var of slots Func
 	sendUserBookingData: FirebaseListObservable<any>;
-    fetchAllUsers: FirebaseObjectObservable<any>;
+	fetchAllUsers: FirebaseObjectObservable<any>;
+	fetchBooking: FirebaseListObservable<any>;
+	fetchBookingForCancel: FirebaseListObservable<any>;
 
 	// dates = [
 	// 	{ value: "270717", viewValue: '27-07-17' },
@@ -66,19 +74,19 @@ export class ParkingPlazaComponent implements OnInit {
 	// ];
 
 	times = [
-		{ value: '9-am', viewValue: '9:00' },
-		{ value: '10-am', viewValue: '10:00' },
-		{ value: '11-am', viewValue: '11:00' },
-		{ value: '12-am', viewValue: '12:00' },
-		{ value: '1-pm', viewValue: '13:00' },
-		{ value: '2-pm', viewValue: '14:00' },
-		{ value: '3-pm', viewValue: '15:00' },
-		{ value: '4-pm', viewValue: '16:00' },
-		{ value: '5-pm', viewValue: '17:00' },
-		{ value: '6-pm', viewValue: '18:00' },
-		{ value: '7-pm', viewValue: '19:00' },
-		{ value: '8-pm', viewValue: '20:00' },
-		{ value: '9-pm', viewValue: '21:00' }
+		{ value: '9:00', viewValue: '9:00' },
+		{ value: '10:00', viewValue: '10:00' },
+		{ value: '11:00', viewValue: '11:00' },
+		{ value: '12:00', viewValue: '12:00' },
+		{ value: '13:00', viewValue: '13:00' },
+		{ value: '14:00', viewValue: '14:00' },
+		{ value: '15:00', viewValue: '15:00' },
+		{ value: '16:00', viewValue: '16:00' },
+		{ value: '17:00', viewValue: '17:00' },
+		{ value: '18:00', viewValue: '18:00' },
+		{ value: '19:00', viewValue: '19:00' },
+		{ value: '20:00', viewValue: '20:00' },
+		{ value: '21:00', viewValue: '21:00' }
 	];
 
 	reserved_hours = [
@@ -104,7 +112,7 @@ export class ParkingPlazaComponent implements OnInit {
 		private db: AngularFireDatabase,
 		private afAuth: AngularFireAuth,
 		private authService: AuthService,
-		private router : Router,
+		private router: Router,
 	) {
 
 	}
@@ -115,7 +123,7 @@ export class ParkingPlazaComponent implements OnInit {
 			timeOptions: '',
 			reservedHoursOptions: '',
 			dateOptions: '',
-			
+
 		});
 
 		this.fetchAllUsers = this.db.object('parking-plaza', { preserveSnapshot: true });
@@ -144,6 +152,7 @@ export class ParkingPlazaComponent implements OnInit {
 	}
 
 
+
 	submit() {
 		for (var i = 0; i < this.buttons.length; i++) {
 			this.buttons[i].reserved = false;
@@ -163,6 +172,7 @@ export class ParkingPlazaComponent implements OnInit {
 
 		for (let i = 0; i < this.allUserstimeDateAndSlotArray.length; i++) {
 			if (this.allUserstimeDateAndSlotArray[i] == this.date) {
+				console.log('1111111111')
 				if ((this.initializeTime >= this.allUserstimeDateAndSlotArray[i + 3] &&
 					this.initializeTime < this.allUserstimeDateAndSlotArray[i + 4])
 					||
@@ -172,6 +182,7 @@ export class ParkingPlazaComponent implements OnInit {
 
 					console.log(this.allUserstimeDateAndSlotArray[i + 2]);
 					this.slot = this.allUserstimeDateAndSlotArray[i + 2];
+
 					this.buttons[this.slot - 1].reserved = true;
 				}
 
@@ -182,6 +193,7 @@ export class ParkingPlazaComponent implements OnInit {
 				) {
 					console.log(this.allUserstimeDateAndSlotArray[i + 2]);
 					this.slot = this.allUserstimeDateAndSlotArray[i + 2];
+
 					this.buttons[this.slot - 1].reserved = true;
 				}
 			}
@@ -190,9 +202,18 @@ export class ParkingPlazaComponent implements OnInit {
 
 
 	}
+	obj: {
+		date: '',
+		slotNum: '',
+		timeDuration: '',
+	}
 
 	slots(slotNumber) {
+		this.obj = { date: '', slotNum: '', timeDuration: '' };
+		this.slotNumber = slotNumber
 		console.log(this.demoForm.value);
+		console.log(this.slot);
+		console.log(this.times[4].viewValue);
 
 		// this.date = parseInt(this.demoForm.value.dateOptions);
 		this.date = this.demoForm.value.dateOptions.getMonth() + 1 + "-" + this.demoForm.value.dateOptions.getDate() + "-" + this.demoForm.value.dateOptions.getYear();
@@ -200,12 +221,71 @@ export class ParkingPlazaComponent implements OnInit {
 		this.reservedHours = parseInt(this.demoForm.value.reservedHoursOptions);
 		this.totalBookingHours = this.initializeTime + this.reservedHours;
 
-		this.TimeDuration = this.initializeTime + " to " + this.totalBookingHours;
+		this.TimeDuration = this.initializeTime + ":00 " + " to " + this.totalBookingHours + ":00 ";
+		this.currentNode = 'parking-plaza';
+		this.userUid = this.afAuth.auth.currentUser.uid;
 
 		this.sendUserBookingData = this.db.list('parking-plaza' + "/" + this.afAuth.auth.currentUser.uid);
-		this.sendUserBookingData.push({ uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date, startTime: this.initializeTime, endTime: this.totalBookingHours, timeDuration: this.TimeDuration, slot: slotNumber })
+		this.sendUserBookingData.push({
+			place: 'parking-plaza', uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date,
+			startTime: this.initializeTime, endTime: this.totalBookingHours, timeDuration: this.TimeDuration, slot: slotNumber
+		})
 
-		 this.router.navigate(['dashboard/app-bookings'])
+		this.showParkingPlaza = false;
+		this.showCurrentBooking = true;
+
+		this.obj.date = this.date;
+		this.obj.slotNum = slotNumber;
+		this.obj.timeDuration = this.TimeDuration;
+		//  this.router.navigate(['dashboard/app-bookings'])
+		this.userBookingArray.push(this.obj);
+
+
+		this.getCurrentBooking(this.date, this.TimeDuration);
+	}
+
+	getCurrentBooking(date, timeDuration) {
+
+
+		this.fetchBooking = this.db.list('parking-plaza/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
+		this.fetchBooking
+			.subscribe(snapshots => {
+				snapshots.forEach(snapshot => {
+					console.log(snapshot.key)
+					if (snapshot.val().selectedDate == date && snapshot.val().timeDuration == timeDuration) {
+						// Current booking key
+						this.currentBookingKey = snapshot.key
+						console.log(snapshot.key);
+						console.log(snapshot.val())
+					}
+				});
+			});
+
+
+	}
+	cancelBooking() {
+
+		this.fetchBookingForCancel = this.db.list('parking-plaza/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
+		this.fetchBookingForCancel
+			.subscribe(snapshots => {
+				this.userBookingArray = [];
+				snapshots.forEach(snapshot => {
+					console.log(snapshot.key)
+					console.log(snapshot.val())
+					if (snapshot.key == this.currentBookingKey) {
+						console.log(snapshot.key);
+						console.log(snapshot.val());
+						this.fetchBookingForCancel.remove(snapshot.key)
+
+
+
+					}
+				});
+			})
+		setTimeout(() => {
+			
+			this.router.navigate(['dashboard'])
+		}, 1000)
 	}
 
 

@@ -32,6 +32,7 @@ import {MdDatepickerModule} from '@angular/material';
 import {MdNativeDateModule} from '@angular/material';
 import {MdTableModule,} from '@angular/material';
 import {CdkTableModule} from "@angular/cdk";
+import {MdTabsModule} from '@angular/material';
 
 
 // services
@@ -43,6 +44,7 @@ import { CanttStationParkingComponent } from './cantt-station-parking/cantt-stat
 import { RootDashboardComponent } from './root-dashboard/root-dashboard.component';
 import { BookingsComponent } from './bookings/bookings.component';
 import { TableFilteringExample } from './tables/tables.component';
+import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import { TableFilteringExample } from './tables/tables.component';
     CanttStationParkingComponent,
     RootDashboardComponent,
     BookingsComponent,
-    TableFilteringExample
+    TableFilteringExample,
+    MyBookingsComponent
   ],
   imports: [
     BrowserModule,
@@ -77,7 +80,10 @@ import { TableFilteringExample } from './tables/tables.component';
 	MdDatepickerModule,
 	MdNativeDateModule,
 	MdTableModule,
-	CdkTableModule
+	CdkTableModule,
+	MdTabsModule
+	
+	
 
     
 

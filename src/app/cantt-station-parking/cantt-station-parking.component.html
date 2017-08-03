@@ -5,7 +5,7 @@
   <button md-button color="warn" (click)="signOut()">SIGN OUT</button>
 
 </md-toolbar>
-
+<div *ngIf="showCanttStation">
 <div style="text-align :center">
 
 	<form [formGroup]="canttStationParkingForm">
@@ -51,4 +51,24 @@
 		</div>
 	</div>
 
+</div>
+</div>
+
+<div *ngIf="showCurrentBooking">
+	<table>
+		<tr>
+			<th>Date</th>
+			<th>Slot Number</th>
+			<th>Booking Time</th>
+			<th>Cancel Booking</th>
+		</tr>
+		<tr *ngFor="let a of userBookingArray">
+			<!-- <td >{{a.date}}</td> -->
+			 <td>{{a.date}}</td>
+			<td>{{a.slotNum}}</td>
+			<td>{{a.timeDuration}}</td> 
+			<td><button md-raised-button color="warn" (click)="cancelBooking()">Cancel</button></td>
+		</tr>
+
+	</table>
 </div>

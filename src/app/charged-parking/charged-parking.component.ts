@@ -6,14 +6,14 @@ import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable,
 import { AuthService } from "../providers/auth.service";
 import { Router } from "@angular/router";
 @Component({
-  selector: 'charged-parking',
-  templateUrl: './charged-parking.component.html',
-  styleUrls: ['./charged-parking.component.css']
+	selector: 'charged-parking',
+	templateUrl: './charged-parking.component.html',
+	styleUrls: ['./charged-parking.component.css']
 })
 export class ChargedParkingComponent implements OnInit {
 
 	chargedParkingForm: FormGroup;
-    minDate = new Date();
+	minDate = new Date();
 	items: FirebaseListObservable<any>;
 	// var of all users
 	allUsersSelectedDate;
@@ -35,8 +35,14 @@ export class ChargedParkingComponent implements OnInit {
 
 	// var of slots Func
 	sendUserBookingData: FirebaseListObservable<any>;
-
+	fetchBooking: FirebaseListObservable<any>;
 	fetchAllUsers: FirebaseObjectObservable<any>;
+
+	showChargedPlaza = true;
+	showCurrentBooking = false;
+	fetchBookingForCancel: FirebaseListObservable<any>
+	currentBookingKey;
+	userBookingArray = [];
 
 	times = [
 		{ value: '9-am', viewValue: '9:00' },
@@ -77,7 +83,7 @@ export class ChargedParkingComponent implements OnInit {
 		private db: AngularFireDatabase,
 		private afAuth: AngularFireAuth,
 		private authService: AuthService,
-		private router : Router,
+		private router: Router,
 	) {
 
 	}
@@ -88,7 +94,7 @@ export class ChargedParkingComponent implements OnInit {
 			timeOptions: '',
 			reservedHoursOptions: '',
 			dateOptions: '',
-			
+
 		});
 
 		this.fetchAllUsers = this.db.object('charged-parking', { preserveSnapshot: true });
@@ -163,8 +169,13 @@ export class ChargedParkingComponent implements OnInit {
 
 
 	}
-
+	obj: {
+		date: '',
+		slotNum: '',
+		timeDuration: '',
+	}
 	slots(slotNumber) {
+		this.obj = { date: '', slotNum: '', timeDuration: '' };
 		console.log(this.chargedParkingForm.value);
 
 		// this.date = parseInt(this.demoForm.value.dateOptions);
@@ -176,11 +187,68 @@ export class ChargedParkingComponent implements OnInit {
 		this.TimeDuration = this.initializeTime + " to " + this.totalBookingHours;
 
 		this.sendUserBookingData = this.db.list('charged-parking' + "/" + this.afAuth.auth.currentUser.uid);
-		this.sendUserBookingData.push({ uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date, startTime: this.initializeTime, endTime: this.totalBookingHours, timeDuration: this.TimeDuration, slot: slotNumber })
+		this.sendUserBookingData.push({
+			place : 'charged-parking',uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date,
+			startTime: this.initializeTime, endTime: this.totalBookingHours, timeDuration: this.TimeDuration, slot: slotNumber
+		})
 
-		 this.router.navigate(['/dashboard'])
+		this.showChargedPlaza = false;
+		this.showCurrentBooking = true;
+
+		this.obj.date = this.date;
+		this.obj.slotNum = slotNumber;
+		this.obj.timeDuration = this.TimeDuration;
+
+		this.userBookingArray.push(this.obj);
+		this.getCurrentBooking(this.date, this.TimeDuration);
 	}
-		signOut(){
-this.authService.signOut();
-}
+
+
+	getCurrentBooking(date, timeDuration) {
+
+
+		this.fetchBooking = this.db.list('charged-parking/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
+		this.fetchBooking
+			.subscribe(snapshots => {
+				snapshots.forEach(snapshot => {
+					console.log(snapshot.key)
+					if (snapshot.val().selectedDate == date && snapshot.val().timeDuration == timeDuration) {
+						// Current booking key
+						this.currentBookingKey = snapshot.key
+						console.log(snapshot.key);
+						console.log(snapshot.val())
+					}
+				});
+			});
+
+
+	}
+	cancelBooking() {
+
+		this.fetchBookingForCancel = this.db.list('charged-parking/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
+		this.fetchBookingForCancel
+			.subscribe(snapshots => {
+				this.userBookingArray = [];
+				snapshots.forEach(snapshot => {
+					console.log(snapshot.key)
+					console.log(snapshot.val())
+					if (snapshot.key == this.currentBookingKey) {
+						console.log(snapshot.key);
+						console.log(snapshot.val());
+						this.fetchBookingForCancel.remove(snapshot.key)
+
+
+
+					}
+				});
+			})
+		setTimeout(() => {
+
+			this.router.navigate(['dashboard'])
+		}, 1000)
+	}
+
+	signOut() {
+		this.authService.signOut();
+	}
 }
