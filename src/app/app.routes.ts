@@ -12,7 +12,7 @@ import { RootDashboardComponent } from './root-dashboard/root-dashboard.componen
 import { BookingsComponent } from './bookings/bookings.component';
 import { TableFilteringExample } from './tables/tables.component';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
-
+import { AdminComponent } from './admin/admin.component';
 const routing: Routes = [
 	{ path: '', component: LoginComponent },
 	{ path: 'app-login', component: LoginComponent },
@@ -30,7 +30,9 @@ const routing: Routes = [
 			{ path: 'app-my-bookings', component: MyBookingsComponent },
 			{ path: 'app-tables', component: TableFilteringExample }
 		]
-	}
+
+	},
+	{ path: 'app-admin', component: AdminComponent }
 ]
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routing)
 export default AppRoutes;

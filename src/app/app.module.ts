@@ -45,6 +45,7 @@ import { RootDashboardComponent } from './root-dashboard/root-dashboard.componen
 import { BookingsComponent } from './bookings/bookings.component';
 import { TableFilteringExample } from './tables/tables.component';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,8 @@ import { MyBookingsComponent } from './my-bookings/my-bookings.component';
     RootDashboardComponent,
     BookingsComponent,
     TableFilteringExample,
-    MyBookingsComponent
+    MyBookingsComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

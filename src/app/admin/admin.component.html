@@ -7,27 +7,11 @@
 
 </md-toolbar>
 
-<md-tab-group>
-	<md-tab label="Parking Plaza">
-		<table>
-			<tr>
-				<th>Date</th>
-				<th>Slot Number</th>
-				<th>Booking Time</th>
-				<th>Cancel Booking</th>
-			</tr>
-			<tr *ngFor="let a of parkingPlazaArray">
-				 <!-- <td >{{a | json}}</td>  -->
-				<td>{{a.selectedDate}}</td>
-				<td>{{a.slot}}</td>
-				<td>{{a.timeDuration}}</td>
-				<td><button md-raised-button color="warn" (click)="cancelBookingOfParkingPlaza(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>
-			</tr>
 
-		</table>
-	</md-tab>
-	<md-tab label="Charged Parking">
-		<table>
+
+<md-tab-group>
+  <md-tab label="Parking Plaza">
+	  	<table>
 			<tr>
 				<th>Date</th>
 				<th>Slot Number</th>
@@ -43,10 +27,27 @@
 			</tr>
 
 		</table>
+  </md-tab>
+  <md-tab label="Charged Parking">
+	  	<table>
+			<tr>
+				<th>Date</th>
+				<th>Slot Number</th>
+				<th>Booking Time</th>
+				<th>Cancel Booking</th>
+			</tr>
+			<tr *ngFor="let a of ChargedParkingArray">
+				<!-- <td >{{a.date}}</td> -->
+				<td>{{a.selectedDate}}</td>
+				<td>{{a.slot}}</td>
+				<td>{{a.timeDuration}}</td>
+				<td><button md-raised-button color="warn" (click)="cancelBookingOfChargedParking(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>
+			</tr>
 
-	</md-tab>
-	<md-tab label="Cantt Station Parking">
-		<table>
+		</table>
+  </md-tab>
+  <md-tab label="Cantt Station Parking">
+	  		<table>
 			<tr>
 				<th>Date</th>
 				<th>Slot Number</th>
@@ -62,5 +63,5 @@
 			</tr>
 
 		</table>
-	</md-tab>
+  </md-tab>
 </md-tab-group>

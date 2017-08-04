@@ -251,7 +251,10 @@ export class ParkingPlazaComponent implements OnInit {
 		this.fetchBooking
 			.subscribe(snapshots => {
 				snapshots.forEach(snapshot => {
-					console.log(snapshot.key)
+					console.log(snapshot.key);
+					// this.fetchBooking = this.db.list('parking-plaza/' + this.afAuth.auth.currentUser.uid + snapshot.key);
+					// this.fetchBooking.set({name : 'tahir'})
+					    
 					if (snapshot.val().selectedDate == date && snapshot.val().timeDuration == timeDuration) {
 						// Current booking key
 						this.currentBookingKey = snapshot.key

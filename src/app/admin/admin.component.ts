@@ -1,15 +1,18 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthService } from "../providers/auth.service";
+import { AngularFireDatabase, FirebaseListObservable } from 'angularfire2/database';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+import { Router } from "@angular/router";
+import * as firebase from 'firebase';
 
 @Component({
-	selector: 'app-my-bookings',
-	templateUrl: './my-bookings.component.html',
-	styleUrls: ['./my-bookings.component.css']
+	selector: 'app-admin',
+	templateUrl: './admin.component.html',
+	styleUrls: ['./admin.component.css']
 })
-export class MyBookingsComponent implements OnInit {
-
-	parkingPlazakeyArray: any[] = [];
+export class AdminComponent implements OnInit {
+   
+    parkingPlazakeyArray: any[] = [];
 	parkingPlazaArray: any[] = [];
 	ChargedParkingArray: any = []
 	CanttStaionArray: any = [];
@@ -23,15 +26,18 @@ export class MyBookingsComponent implements OnInit {
 	fetchChargedParkingForCancel : FirebaseListObservable<any>;
 	fetchCanttStaionForCancel    : FirebaseListObservable<any>;
 
-	constructor(private db: AngularFireDatabase,
-		private afAuth: AngularFireAuth
-	) { }
+	constructor(private authService: AuthService,
+				private afAuth : AngularFireAuth,
+			    private db: AngularFireDatabase,		
+			) { }
 
 	ngOnInit() {
 
-		this.showBookings()
+		this.showAllUserBookings()
+
 	}
-	parkingPlazaObject = {
+
+		parkingPlazaObject = {
 		parkingName: '',
 		uid: '',
 		userKey: '',
@@ -58,9 +64,8 @@ export class MyBookingsComponent implements OnInit {
 		slot: '',
 		timeDuration: '',
 	}
-
-	showBookings() {
-		this.fetchParkingPlazaBookings = this.db.list('/parking-plaza/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
+	showAllUserBookings() {
+		this.fetchParkingPlazaBookings = this.db.list('/parking-plaza/' , { preserveSnapshot: true });
 		this.fetchChargedParkingBookings = this.db.list('/charged-parking/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
 		this.fetchCanttStationBookings = this.db.list('/cantt-station/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
 
@@ -149,93 +154,11 @@ export class MyBookingsComponent implements OnInit {
 				});
 			})
 
-
-
 	}
-	cancelBookingOfParkingPlaza(date, timeDuration, key) {
-		console.log(key);
 
-		console.log(this.parkingPlazaArray);
-
-
-		this.fetchParingPlazaForCancel = this.db.list('/parking-plaza', { preserveSnapshot: true });
-		this.fetchParingPlazaForCancel
-			.subscribe(snapshots => {
-
-				snapshots.forEach(snapshot => {
-
-					console.log(snapshot.key)
-					console.log(snapshot.val());
-
-					snapshot.forEach(snapshot => {
-
-						console.log(snapshot.key)
-						console.log(snapshot.val());
-						if (snapshot.key == key) {
-							console.log(snapshot.key);
-							console.log(snapshot.val());
-							this.fetchParkingPlazaBookings.remove(snapshot.key);
-							this.parkingPlazaArray = [];
-
-						}
-					});
-				});
-			})
-
+	signOut() {
+		this.authService.signOut();
 	}
-		cancelBookingOfChargedParking(date, timeDuration, key){
-            
-		this.fetchChargedParkingForCancel = this.db.list('/charged-parking', { preserveSnapshot: true });
-		this.fetchChargedParkingForCancel
-			.subscribe(snapshots => {
-
-				snapshots.forEach(snapshot => {
-
-					console.log(snapshot.key)
-					console.log(snapshot.val());
-
-					snapshot.forEach(snapshot => {
-
-						console.log(snapshot.key)
-						console.log(snapshot.val());
-						if (snapshot.key == key) {
-							console.log(snapshot.key);
-							console.log(snapshot.val());
-							this.fetchChargedParkingBookings.remove(snapshot.key);
-							this.ChargedParkingArray = [];
-
-						}
-					});
-				});
-			})
-		}
-    cancelBookingForCanttStation(date, timeDuration, key){
-		console.log(this.CanttStaionArray);
 
 
-		this.fetchCanttStaionForCancel = this.db.list('/cantt-station', { preserveSnapshot: true });
-		this.fetchCanttStaionForCancel
-			.subscribe(snapshots => {
-
-				snapshots.forEach(snapshot => {
-
-					console.log(snapshot.key)
-					console.log(snapshot.val());
-
-					snapshot.forEach(snapshot => {
-
-						console.log(snapshot.key)
-						console.log(snapshot.val());
-						if (snapshot.key == key) {
-							console.log(snapshot.key);
-							console.log(snapshot.val());
-							this.fetchCanttStationBookings.remove(snapshot.key);
-							this.CanttStaionArray = [];
-
-						}
-					});
-				});
-			})
-
-	}
 }

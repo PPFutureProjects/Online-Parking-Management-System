@@ -14,6 +14,16 @@ Parking-Management System
   
   <form [formGroup]="signupForm">
   <md-list>
+	   <md-list-item class="center-list" >
+      <md-input-container>
+        <input formControlName="userName" mdInput placeholder="Name" >
+      </md-input-container>
+	</md-list-item>
+	 <md-list-item class="center-list" >
+      <md-input-container>
+        <input formControlName="userLastName" mdInput placeholder="Last Name" >
+      </md-input-container>
+    </md-list-item>
 
     <md-list-item class="center-list" >
       <md-input-container>
@@ -26,6 +36,21 @@ Parking-Management System
     <md-list-item class="center-list">
       <md-input-container>
         <input formControlName="userPassword" mdInput placeholder="Password" >
+      </md-input-container>
+	</md-list-item>
+	 <md-list-item class="center-list" >
+      <md-input-container>
+        <input formControlName="userTelephone" mdInput placeholder="Telephone" >
+      </md-input-container>
+	</md-list-item>
+	 <md-list-item class="center-list" >
+      <md-input-container>
+        <input formControlName="userCNIC" mdInput placeholder="CNIC" >
+      </md-input-container>
+	</md-list-item>
+	 <md-list-item class="center-list" >
+      <md-input-container>
+        <input formControlName="userAddress" mdInput placeholder="Address" >
       </md-input-container>
     </md-list-item>
 
