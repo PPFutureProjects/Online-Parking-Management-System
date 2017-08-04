@@ -11,8 +11,8 @@ import * as firebase from 'firebase';
 	styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-   
-    parkingPlazakeyArray: any[] = [];
+
+	// parkingPlazakeyArray: any[] = [];
 	parkingPlazaArray: any[] = [];
 	ChargedParkingArray: any = []
 	CanttStaionArray: any = [];
@@ -23,13 +23,14 @@ export class AdminComponent implements OnInit {
 	fetchChargedParkingBookings: FirebaseListObservable<any>;
 	fetchCanttStationBookings: FirebaseListObservable<any>;
 	fetchParingPlazaForCancel: FirebaseListObservable<any>;
-	fetchChargedParkingForCancel : FirebaseListObservable<any>;
-	fetchCanttStaionForCancel    : FirebaseListObservable<any>;
+	fetchChargedParkingForCancel: FirebaseListObservable<any>;
+	fetchCanttStaionForCancel: FirebaseListObservable<any>;
+
 
 	constructor(private authService: AuthService,
-				private afAuth : AngularFireAuth,
-			    private db: AngularFireDatabase,		
-			) { }
+		private afAuth: AngularFireAuth,
+		private db: AngularFireDatabase,
+	) { }
 
 	ngOnInit() {
 
@@ -37,7 +38,7 @@ export class AdminComponent implements OnInit {
 
 	}
 
-		parkingPlazaObject = {
+	parkingPlazaObject = {
 		parkingName: '',
 		uid: '',
 		userKey: '',
@@ -56,104 +57,184 @@ export class AdminComponent implements OnInit {
 		timeDuration: '',
 	}
 
-	canttStationObject = {
-		parkingName: '',
-		uid: '',
-		userKey: '',
-		selectedDate: '',
-		slot: '',
-		timeDuration: '',
-	}
+	// canttStationObject = {
+	// 	parkingName: '',
+	// 	uid: '',
+	// 	userKey: '',
+	// 	selectedDate: '',
+	// 	slot: '',
+	// 	timeDuration: '',
+	// }
 	showAllUserBookings() {
-		this.fetchParkingPlazaBookings = this.db.list('/parking-plaza/' , { preserveSnapshot: true });
-		this.fetchChargedParkingBookings = this.db.list('/charged-parking/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
-		this.fetchCanttStationBookings = this.db.list('/cantt-station/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
+		this.fetchParkingPlazaBookings = this.db.list('/parking-plaza/', { preserveSnapshot: true });
+		this.fetchChargedParkingBookings = this.db.list('/charged-parking/', { preserveSnapshot: true });
+		this.fetchCanttStationBookings = this.db.list('/cantt-station/', { preserveSnapshot: true });
 
 		this.fetchParkingPlazaBookings
 			.subscribe(snapshots => {
 				snapshots.forEach(snapshot => {
-					this.parkingPlazaObject = {
-						parkingName: '',
-						uid: '',
-						userKey: '',
-						selectedDate: '',
-						slot: '',
-						timeDuration: '',
 
-					}
 					console.log(snapshot.key)
 					console.log(snapshot.val());
+					snapshot.forEach((snapshot) => {
+						this.parkingPlazaObject = {
+							parkingName: '',
+							uid: '',
+							userKey: '',
+							selectedDate: '',
+							slot: '',
+							timeDuration: '',
 
-					this.parkingPlazaObject.uid = snapshot.val().uid;
-					this.parkingPlazaObject.userKey = snapshot.key;
-					this.parkingPlazaObject.selectedDate = snapshot.val().selectedDate;
-					this.parkingPlazaObject.slot = snapshot.val().slot;
-					this.parkingPlazaObject.timeDuration = snapshot.val().timeDuration;
-					this.parkingPlazaObject.parkingName = snapshot.val().place;
+						}
+						console.log(snapshot.key);
+						console.log(snapshot.val());
 
-					// this.parkingPlazakeyArray.push(snapshot.key);
-					console.log(snapshot.val())
-					this.parkingPlazaArray.push(this.parkingPlazaObject);
-					console.log('111111', this.parkingPlazaArray);
+
+						this.parkingPlazaObject.uid = snapshot.val().uid;
+						this.parkingPlazaObject.userKey = snapshot.key;
+						this.parkingPlazaObject.selectedDate = snapshot.val().selectedDate;
+						this.parkingPlazaObject.slot = snapshot.val().slot;
+						this.parkingPlazaObject.timeDuration = snapshot.val().timeDuration;
+						this.parkingPlazaObject.parkingName = snapshot.val().place;
+
+						// this.parkingPlazakeyArray.push(snapshot.key);
+						console.log(snapshot.val())
+						this.parkingPlazaArray.push(this.parkingPlazaObject);
+						console.log('111111', this.parkingPlazaArray);
+
+					})
+					// console.log(snapshot.val().uid);
 
 				});
 			})
+
+		// 	});
+		// })
 
 		this.fetchChargedParkingBookings
 			.subscribe(snapshots => {
 				snapshots.forEach(snapshot => {
-					this.chargedParkingObject = {
-						parkingName: '',
-						uid: '',
-						userKey: '',
-						selectedDate: '',
-						slot: '',
-						timeDuration: '',
-					}
 
 					console.log(snapshot.key);
 					console.log(snapshot.val());
 
-					this.chargedParkingObject.uid = snapshot.val().uid;
-					this.chargedParkingObject.userKey = snapshot.key;
-					this.chargedParkingObject.selectedDate = snapshot.val().selectedDate;
-					this.chargedParkingObject.slot = snapshot.val().slot;
-					this.chargedParkingObject.timeDuration = snapshot.val().timeDuration;
-					this.chargedParkingObject.parkingName = snapshot.val().place;
+					snapshot.forEach((snapshot) => {
+						this.chargedParkingObject = {
+							parkingName: '',
+							uid: '',
+							userKey: '',
+							selectedDate: '',
+							slot: '',
+							timeDuration: '',
+						}
+
+						console.log(snapshot.key);
+						console.log(snapshot.val());
 
 
-					this.ChargedParkingArray.push(this.chargedParkingObject);
-					console.log('22222', this.ChargedParkingArray);
+						this.chargedParkingObject.uid = snapshot.val().uid;
+						this.chargedParkingObject.userKey = snapshot.key;
+						this.chargedParkingObject.selectedDate = snapshot.val().selectedDate;
+						this.chargedParkingObject.slot = snapshot.val().slot;
+						this.chargedParkingObject.timeDuration = snapshot.val().timeDuration;
+						this.chargedParkingObject.parkingName = snapshot.val().place;
+
+
+						this.ChargedParkingArray.push(this.chargedParkingObject);
+						console.log('22222', this.ChargedParkingArray);
+					})
+
+
 
 				});
 			})
 
-		this.fetchCanttStationBookings
+		// this.fetchCanttStationBookings
+		// 	.subscribe(snapshots => {
+		// 		snapshots.forEach(snapshot => {
+		// 			this.canttStationObject = {
+		// 			parkingName: '',
+		// 			uid: '',
+		// 			userKey: '',
+		// 			selectedDate: '',
+		// 			slot: '',
+		// 			timeDuration: '',
+		// 		}
+		// 			console.log(snapshot.key)
+		// 			console.log(snapshot.val())
+
+		// 			this.canttStationObject.uid = snapshot.val().uid;
+		// 			this.canttStationObject.userKey = snapshot.key;
+		// 			this.canttStationObject.selectedDate = snapshot.val().selectedDate;
+		// 			this.canttStationObject.slot = snapshot.val().slot;
+		// 			this.canttStationObject.timeDuration = snapshot.val().timeDuration;
+		// 			this.canttStationObject.parkingName = snapshot.val().place;
+		// 			this.CanttStaionArray.push(this.canttStationObject);
+		// 			console.log('3333', this.CanttStaionArray);
+
+
+
+
+
+	}
+
+	cancelBookingOfParkingPlaza(date, timeDuration, key) {
+		console.log(key);
+
+		console.log(this.parkingPlazaArray);
+
+
+		this.fetchParingPlazaForCancel = this.db.list('/parking-plaza', { preserveSnapshot: true });
+		this.fetchParingPlazaForCancel
 			.subscribe(snapshots => {
+
 				snapshots.forEach(snapshot => {
-					this.canttStationObject = {
-					parkingName: '',
-					uid: '',
-					userKey: '',
-					selectedDate: '',
-					slot: '',
-					timeDuration: '',
-				}
+
 					console.log(snapshot.key)
-					console.log(snapshot.val())
+					console.log(snapshot.val());
 
-					this.canttStationObject.uid = snapshot.val().uid;
-					this.canttStationObject.userKey = snapshot.key;
-					this.canttStationObject.selectedDate = snapshot.val().selectedDate;
-					this.canttStationObject.slot = snapshot.val().slot;
-					this.canttStationObject.timeDuration = snapshot.val().timeDuration;
-					this.canttStationObject.parkingName = snapshot.val().place;
-					this.CanttStaionArray.push(this.canttStationObject);
-					console.log('3333', this.CanttStaionArray);
+					snapshot.forEach(snapshot => {
 
+						console.log(snapshot.key)
+						console.log(snapshot.val());
+						if (snapshot.key == key) {
+							console.log(snapshot.key);
+							console.log(snapshot.val());
+							this.fetchParingPlazaForCancel.remove(snapshot.key);
+							this.parkingPlazaArray = [];
+
+						}
+					});
 				});
 			})
 
+	}
+
+	cancelBookingOfChargedParking(date, timeDuration, key) {
+
+		this.fetchChargedParkingForCancel = this.db.list('/charged-parking', { preserveSnapshot: true });
+		this.fetchChargedParkingForCancel
+			.subscribe(snapshots => {
+
+				snapshots.forEach(snapshot => {
+
+					console.log(snapshot.key)
+					console.log(snapshot.val());
+
+					snapshot.forEach(snapshot => {
+
+						console.log(snapshot.key)
+						console.log(snapshot.val());
+						if (snapshot.key == key) {
+							console.log(snapshot.key);
+							console.log(snapshot.val());
+							this.fetchChargedParkingBookings.remove(snapshot.key);
+							this.ChargedParkingArray = [];
+
+						}
+					});
+				});
+			})
 	}
 
 	signOut() {

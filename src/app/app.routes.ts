@@ -13,6 +13,10 @@ import { BookingsComponent } from './bookings/bookings.component';
 import { TableFilteringExample } from './tables/tables.component';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { AdminComponent } from './admin/admin.component';
+import { AllUsersComponent } from './all-users/all-users.component';
+import { RootAdminComponent } from './root-admin/root-admin.component';
+
+
 const routing: Routes = [
 	{ path: '', component: LoginComponent },
 	{ path: 'app-login', component: LoginComponent },
@@ -32,7 +36,13 @@ const routing: Routes = [
 		]
 
 	},
-	{ path: 'app-admin', component: AdminComponent }
+	{
+		path: 'admin', component: RootAdminComponent,
+		children: [
+			{ path: '', component: AdminComponent },
+			{ path: 'app-all-users', component: AllUsersComponent }
+		]
+	}
 ]
 export const AppRoutes: ModuleWithProviders = RouterModule.forRoot(routing)
 export default AppRoutes;

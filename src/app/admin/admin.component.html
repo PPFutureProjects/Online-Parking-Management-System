@@ -2,7 +2,9 @@
 
 	Parking-Management System
 	<span class="example-spacer"></span>
+	<button md-button color="warn" routerLink="app-all-users">All USERS</button>
 	<button md-button color="warn" (click)="signOut()">SIGN OUT</button>
+	
 
 
 </md-toolbar>
@@ -18,12 +20,12 @@
 				<th>Booking Time</th>
 				<th>Cancel Booking</th>
 			</tr>
-			<tr *ngFor="let a of ChargedParkingArray">
+			<tr *ngFor="let a of parkingPlazaArray">
 				<!-- <td >{{a.date}}</td> -->
 				<td>{{a.selectedDate}}</td>
 				<td>{{a.slot}}</td>
 				<td>{{a.timeDuration}}</td>
-				<td><button md-raised-button color="warn" (click)="cancelBookingOfChargedParking(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>
+				<td><button md-raised-button color="warn" (click)="cancelBookingOfParkingPlaza(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>
 			</tr>
 
 		</table>
@@ -37,7 +39,7 @@
 				<th>Cancel Booking</th>
 			</tr>
 			<tr *ngFor="let a of ChargedParkingArray">
-				<!-- <td >{{a.date}}</td> -->
+			
 				<td>{{a.selectedDate}}</td>
 				<td>{{a.slot}}</td>
 				<td>{{a.timeDuration}}</td>
@@ -46,7 +48,7 @@
 
 		</table>
   </md-tab>
-  <md-tab label="Cantt Station Parking">
+  <!--<md-tab label="Cantt Station Parking">
 	  		<table>
 			<tr>
 				<th>Date</th>
@@ -55,7 +57,7 @@
 				<th>Cancel Booking</th>
 			</tr>
 			<tr *ngFor="let a of CanttStaionArray">
-				<!-- <td >{{a.date}}</td> -->
+				
 				<td>{{a.selectedDate}}</td>
 				<td>{{a.slot}}</td>
 				<td>{{a.timeDuration}}</td>
@@ -63,5 +65,5 @@
 			</tr>
 
 		</table>
-  </md-tab>
+  </md-tab>-->
 </md-tab-group>

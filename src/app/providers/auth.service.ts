@@ -73,7 +73,7 @@ export class AuthService {
 
 				this.adminUid = this.afAuth.auth.currentUser.uid;
 				if (this.adminUid == 'D6JNpT6cTtfOilIKV7cp3u1tsP42') {
-					this.router.navigate(['/app-admin'])
+					this.router.navigate(['/admin'])
                     localStorage.setItem('adminUid', this.adminUid);
 				}
 				else if(this.adminUid !== 'D6JNpT6cTtfOilIKV7cp3u1tsP42'){

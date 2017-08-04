@@ -33,7 +33,7 @@ import {MdNativeDateModule} from '@angular/material';
 import {MdTableModule,} from '@angular/material';
 import {CdkTableModule} from "@angular/cdk";
 import {MdTabsModule} from '@angular/material';
-
+import {MdDialogModule} from '@angular/material';
 
 // services
 import { AuthService } from "./providers/auth.service";
@@ -46,6 +46,9 @@ import { BookingsComponent } from './bookings/bookings.component';
 import { TableFilteringExample } from './tables/tables.component';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { AdminComponent } from './admin/admin.component';
+import { AllUsersComponent } from './all-users/all-users.component';
+import { RootAdminComponent } from './root-admin/root-admin.component';
+import { DialogResultExampleDialog } from './all-users/all-users.component';
 
 @NgModule({
   declarations: [
@@ -61,8 +64,13 @@ import { AdminComponent } from './admin/admin.component';
     BookingsComponent,
     TableFilteringExample,
     MyBookingsComponent,
-    AdminComponent
+    AdminComponent,
+    AllUsersComponent,
+    RootAdminComponent,
+
+    DialogResultExampleDialog
   ],
+  entryComponents: [DialogResultExampleDialog],
   imports: [
     BrowserModule,
     AppRoutes,
@@ -83,7 +91,8 @@ import { AdminComponent } from './admin/admin.component';
 	MdNativeDateModule,
 	MdTableModule,
 	CdkTableModule,
-	MdTabsModule
+	MdTabsModule,
+  MdDialogModule
 	
 	
 

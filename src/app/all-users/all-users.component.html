@@ -1,0 +1,28 @@
+<md-toolbar color="primary">
+
+	Parking-Management System
+	<span class="example-spacer"></span>
+	<button md-button color="warn" (click)="signOut()">SIGN OUT</button>
+
+
+</md-toolbar>
+
+	  	<table>
+			<tr>
+				<th>NAME</th>
+				<th>EMAIL</th>
+				<th>DETAIL</th>
+				<!--<th>Cancel Booking</th>-->
+			</tr>
+			<tr *ngFor="let a of usersArray">
+			
+				<td>{{a.userName}}</td>
+				<td>{{a.userEmail}}</td>
+				<td><button md-button color="primary" (click)="openDialog(a.userUid)">Details</button></td>
+				<!--<td><button md-raised-button color="warn" (click)="cancelBookingOfChargedParking(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>-->
+			</tr>
+
+		</table>
+    <!--<button md-button (click)="openDialog()">Launch dialog</button>-->
+You chose: {{selectedOption}}
+
