@@ -38,6 +38,8 @@ import {MdDialogModule} from '@angular/material';
 // services
 import { AuthService } from "./providers/auth.service";
 import { AuthGuardGuard } from "./providers/auth-guard.guard";
+import { FeedbackService } from "./providers/feedback.service";
+
 import { ParkingPlazaComponent } from './parking-plaza/parking-plaza.component';
 import { ChargedParkingComponent } from './charged-parking/charged-parking.component';
 import { CanttStationParkingComponent } from './cantt-station-parking/cantt-station-parking.component';
@@ -49,6 +51,8 @@ import { AdminComponent } from './admin/admin.component';
 import { AllUsersComponent } from './all-users/all-users.component';
 import { RootAdminComponent } from './root-admin/root-admin.component';
 import { DialogResultExampleDialog } from './all-users/all-users.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { AdminFeedbackComponent } from './admin-feedback/admin-feedback.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +72,11 @@ import { DialogResultExampleDialog } from './all-users/all-users.component';
     AllUsersComponent,
     RootAdminComponent,
 
-    DialogResultExampleDialog
+    DialogResultExampleDialog,
+
+    FeedbackComponent,
+
+    AdminFeedbackComponent
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [
@@ -100,7 +108,7 @@ import { DialogResultExampleDialog } from './all-users/all-users.component';
 
 
   ],
-  providers: [AuthService,AuthGuardGuard],
+  providers: [AuthService,AuthGuardGuard,FeedbackService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

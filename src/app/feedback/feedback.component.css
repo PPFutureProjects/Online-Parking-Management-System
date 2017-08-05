@@ -1,0 +1,15 @@
+.example-spacer {
+  flex: 1 1 auto;
+}
+
+
+textarea#styled {
+	width: 500px;
+	height: 50px;
+	border: 3px solid #cccccc;
+	padding: 5px;
+	font-family: Tahoma, sans-serif;
+	/* background-image: url(bg.gif); */
+	background-position: bottom right;
+	background-repeat: no-repeat;
+}

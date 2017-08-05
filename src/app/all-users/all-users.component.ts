@@ -8,124 +8,179 @@ import * as firebase from 'firebase';
 import { MdDialog, MdDialogRef } from '@angular/material';
 
 @Component({
-  selector: 'app-all-users',
-  templateUrl: './all-users.component.html',
-  styleUrls: ['./all-users.component.css']
+	selector: 'app-all-users',
+	templateUrl: './all-users.component.html',
+	styleUrls: ['./all-users.component.css']
 })
 export class AllUsersComponent implements OnInit {
-  usersArray: any[] = [];
+	usersArray: any[] = [];
 
-  selectedOption: string;
+	selectedOption: string;
+	selectedUserDetails;
 
-  fetchAllUsers: FirebaseListObservable<any>;
-  constructor(public dialog: MdDialog,
-    private afAuth: AngularFireAuth,
-    private db: AngularFireDatabase,
-    private authService: AuthService) { }
-
-
-  ngOnInit() {
-    this.showAllUsers();
-  }
-
-  usersObject = {
-    userUid: '',
-    userName: '',
-    userLastName: '',
-    userEmail: '',
-    userTelephone: '',
-    userCNIC: '',
-    userAddress: ''
-  }
-  showAllUsers() {
-    this.fetchAllUsers = this.db.list('/users', { preserveSnapshot: true });
-    this.fetchAllUsers
-      .subscribe(snapshots => {
-        snapshots.forEach(snapshot => {
-          this.usersObject = {
-            userUid: '',
-            userName: '',
-            userLastName: '',
-            userEmail: '',
-            userTelephone: '',
-            userCNIC: '',
-            userAddress: ''
-          }
-          console.log(snapshot.key)
-          console.log(snapshot.val());
-
-          this.usersObject.userUid = snapshot.key;
-          this.usersObject.userName = snapshot.val().userName;
-          this.usersObject.userLastName = snapshot.val().userLastName;
-          this.usersObject.userEmail = snapshot.val().userEmail;
-          this.usersObject.userTelephone = snapshot.val().userTelephone;
-          this.usersObject.userCNIC = snapshot.val().userCNIC;
-          this.usersObject.userAddress = snapshot.val().userAddress;
-
-          this.usersArray.push(this.usersObject)
-          console.log(this.usersArray);
+	fetchAllUsers: FirebaseListObservable<any>;
+	users : FirebaseListObservable<any>;
+	constructor(public dialog: MdDialog,
+		private afAuth: AngularFireAuth,
+		private db: AngularFireDatabase,
+		private authService: AuthService) { }
 
 
-        });
-      })
-  }
-  
-  signOut() {
-    this.authService.signOut()
-    
-  }
+	ngOnInit() {
+		this.showAllUsers();
+	}
 
-  openDialog(uid) {
-    console.log(uid);
+	usersObject = {
+		userUid: '',
+		userName: '',
+		userLastName: '',
+		userEmail: '',
+		userTelephone: '',
+		userCNIC: '',
+		userAddress: ''
+	}
+	showAllUsers() {
+		this.fetchAllUsers = this.db.list('/users', { preserveSnapshot: true });
+		this.fetchAllUsers
+			.subscribe(snapshots => {
+				this.usersArray = [];
+				snapshots.forEach(snapshot => {
+					this.usersObject = {
+						userUid: '',
+						userName: '',
+						userLastName: '',
+						userEmail: '',
+						userTelephone: '',
+						userCNIC: '',
+						userAddress: ''
+					}
+					console.log(snapshot.key)
+					console.log(snapshot.val());
 
-    
-    // let dialogRef2 = this.dialog.open(DialogResultExampleDialog, {
-    //   data : 'demo'   
-    // });
+					this.usersObject.userUid = snapshot.key;
+					this.usersObject.userName = snapshot.val().userName;
+					this.usersObject.userLastName = snapshot.val().userLastName;
+					this.usersObject.userEmail = snapshot.val().userEmail;
+					this.usersObject.userTelephone = snapshot.val().userTelephone;
+					this.usersObject.userCNIC = snapshot.val().userCNIC;
+					this.usersObject.userAddress = snapshot.val().userAddress;
 
-    let dialogRef = this.dialog.open(DialogResultExampleDialog,{
-        data: this.usersArray,
-       
-    });
-    
-// dialogRef.componentInstance.name= url;
-    dialogRef.afterClosed().subscribe(result => {
-      this.selectedOption = result;
-    });
-  }
+					this.usersArray.push(this.usersObject)
+					console.log(this.usersArray);
+
+ 
+				});
+			})
+	}
+
+	signOut() {
+		this.authService.signOut()
+
+	}
+
+	openDialog(uid) {
+		console.log(uid);
+
+
+		// let dialogRef2 = this.dialog.open(DialogResultExampleDialog, {
+		//   data : 'demo'   
+		// });
+
+		console.log(this.usersArray);
+		this.usersArray.forEach((data) => {
+			console.log(data.userUid);
+			if (data.userUid == uid) {
+				console.log(data.userUid);
+				console.log(data);
+				this.selectedUserDetails = data;
+
+
+			}
+
+		})
+
+		let dialogRef = this.dialog.open(DialogResultExampleDialog, {
+			height: '400px',
+			width: '400px',
+			data: this.selectedUserDetails,
+
+
+		});
+
+		// dialogRef.componentInstance.name= url;
+		dialogRef.afterClosed().subscribe(result => {
+			this.selectedOption = result;
+		});
+	}
+
+	cancelUser(email) {
+		console.log(email);
+		
+		this.users = this.db.list('/users', { preserveSnapshot: true });
+		this.users
+			.subscribe(snapshots => {
+			
+				snapshots.forEach(snapshot => {
+					
+					console.log(snapshot.key);
+					console.log(snapshot.val());
+					
+					if(snapshot.val().userEmail == email){
+						
+						console.log(snapshot.val())
+						console.log(snapshot.key);
+						this.users.remove(snapshot.key)
+						
+					}
+					
+					
+				});
+			})
+	}
 
 
 
 }
 
-import { Inject} from '@angular/core';
-import {MD_DIALOG_DATA} from '@angular/material';
+import { Inject } from '@angular/core';
+import { MD_DIALOG_DATA } from '@angular/material';
 @Component({
-  selector: 'dialog-result-example-dialog',
-  template: `
-  <ul>
-   <li *ngFor="let a of data">{{a.userName}}</li>
-  </ul>
-  <h1 md-dialog-title>Dialog</h1>
-<div md-dialog-content>What would you like to do?</div>
-<div md-dialog-actions>
-  <button md-button md-dialog-close="Option 1">Option 1</button>
-  <button md-button md-dialog-close="Option 2">Option 2</button>
-</div>
+	selector: 'dialog-result-example-dialog',
+	template: `
+		
 
+	    <ul style="text-align : center;list-style: none">
+		  <li style="margin: 20px;"><b>   Name</b>       : {{data.userName}}    </li>
+			<li style="margin: 20px;"><b> Last Name</b> : {{data.userLastName}}</li>
+			<li style="margin: 20px;"><b> Email</b>     : {{data.userEmail}}   </li>
+			<li style="margin: 20px;"><b> Telephone</b> : {{data.userTelephone}}</li>
+			<li style="margin: 20px;"><b> CNIC</b>      : {{data.userCNIC}}    </li>
+			<li style="margin: 20px;"><b> Address</b>   : {{data.userAddress}} </li>
+		 </ul>
+	 		
+
+  <div style="text-align : center"> 
+   <button md-button md-dialog-close="" (click)="close()">Close</button>
+</div>
   
    `,
+	styleUrls: ['./all-users.component.css']
 })
 export class DialogResultExampleDialog {
-    uid;
-    // name: string;
-  constructor(@Inject(MD_DIALOG_DATA) public data: any, public dialogRef: MdDialogRef<DialogResultExampleDialog>) {
-    console.log(data);
-  
-    
-    
-    
-   }
+	uid;
+	// name: string;
+	constructor( @Inject(MD_DIALOG_DATA) public data: any, public dialogRef: MdDialogRef<DialogResultExampleDialog>) {
+		console.log(data);
+
+
+
+
+	}
+
+	close() {
+		console.log('asdasdas');
+
+	}
 
 
 }

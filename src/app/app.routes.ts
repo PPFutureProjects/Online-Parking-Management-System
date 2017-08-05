@@ -15,6 +15,8 @@ import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { AdminComponent } from './admin/admin.component';
 import { AllUsersComponent } from './all-users/all-users.component';
 import { RootAdminComponent } from './root-admin/root-admin.component';
+import { FeedbackComponent } from './feedback/feedback.component';
+import { AdminFeedbackComponent } from './admin-feedback/admin-feedback.component';
 
 
 const routing: Routes = [
@@ -32,7 +34,8 @@ const routing: Routes = [
 			{ path: 'cantt-station-parking', component: CanttStationParkingComponent },
 			{ path: 'app-bookings', component: BookingsComponent },
 			{ path: 'app-my-bookings', component: MyBookingsComponent },
-			{ path: 'app-tables', component: TableFilteringExample }
+			{ path: 'app-tables', component: TableFilteringExample },
+			{path : 'app-feedback' , component : FeedbackComponent}
 		]
 
 	},
@@ -40,7 +43,8 @@ const routing: Routes = [
 		path: 'admin', component: RootAdminComponent,
 		children: [
 			{ path: '', component: AdminComponent },
-			{ path: 'app-all-users', component: AllUsersComponent }
+			{ path: 'app-all-users', component: AllUsersComponent },
+			{path : 'app-admin-feedback' , component: AdminFeedbackComponent}
 		]
 	}
 ]

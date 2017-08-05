@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
 
+import { AuthService } from "../providers/auth.service";
 @Component({
 	selector: 'app-my-bookings',
 	templateUrl: './my-bookings.component.html',

@@ -1,0 +1,19 @@
+<md-toolbar color="primary">
+
+	Parking-Management System
+	<span class="example-spacer"></span>
+	<button md-button color="warn" (click)="signOut()">SIGN OUT</button>
+
+
+</md-toolbar>
+
+
+
+
+
+<div style="text-align : center;margin-top : 20%">	
+<textarea [(ngModel)]="userFeedback" name="styled-textarea" id="styled" onfocus="this.value=''" >Enter your feedback here...</textarea>
+</div>
+<div style="text-align : center">
+<button md-button color="primary" (click)="submitFeedback(userFeedback)">Submit</button>
+</div>
