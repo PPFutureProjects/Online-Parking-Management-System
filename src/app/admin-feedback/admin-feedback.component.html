@@ -11,21 +11,56 @@
 
 
 
-<div style="text-align : center;margin-top : 20%">	
-<textarea [(ngModel)]="adminFeedback" name="styled-textarea" id="styled" onfocus="this.value=''" >Enter your feedback here...</textarea>
+
+<div *ngIf="showFeedbackUsers">
+	<md-card *ngFor="let a of usersArray">
+		<md-card-content style="padding: 5px;">
+			{{a.name}}
+			<button md-button color="primary" style="float : right" (click)="message(a.uid)">Message</button>
+		</md-card-content>
+		<!-- <md-card-actions>
+			
+		</md-card-actions> -->
+	</md-card>
 </div>
-<div style="text-align : center">
-<button md-button color="primary" (click)="submitFeedback(adminFeedback)">Submit</button>
-</div>
-<div>
-<ul>
-	<li *ngFor="let a of adminDataArray">
-    {{a.message }}
-	</li>
-</ul>
-<ul>
-	<li *ngFor="let a of userDataArray">
-		{{a.message}}
-	</li>
-</ul>
+
+
+
+<div *ngIf="showChat">
+	<div style="margin: 10px">
+		<a md-mini-fab (click)="back()"><i class="material-icons">arrow_back</i></a>
+		<!-- <button> <i class="material-icons">arrow_back</i></button> -->
+	</div>
+	<div *ngFor="let chat of showCurrentUserChat | async" style="text-align: center; width: 500px;margin: 0 auto;">
+		
+		<li *ngIf="chat.type == 'admin'" style="list-style: none;margin-left :80%; display : block; width : 100%;background-color: #3f51b5;color: white; margin-bottom : 5px">
+			{{chat.name}} <br> {{chat.message}}
+
+		</li>
+	  <li *ngIf="chat.type == 'user'" style="list-style: none">
+		  {{chat.name}} <br> {{chat.message}}
+	  </li>
+
+	</div>
+	<div style="text-align : center;margin-top : 20%">
+		<textarea [(ngModel)]="adminFeedback" name="styled-textarea" id="styled" onfocus="this.value=''">Enter your feedback here...</textarea>
+	</div>
+	<div style="text-align : center">
+		<button md-button color="primary" (click)="submitFeedback(adminFeedback)">Submit</button>
+	</div>
+	<div>
+		<ul>
+			<li *ngFor="let a of adminDataArray">
+				{{a.message }}
+			</li>
+		</ul>
+		<ul>
+			<li *ngFor="let a of userDataArray">
+				{{a.message}}
+			</li>
+		</ul>
+	</div>
+
+
+
 </div>
