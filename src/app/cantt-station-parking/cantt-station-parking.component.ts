@@ -136,8 +136,10 @@ export class CanttStationParkingComponent implements OnInit {
 		console.log(this.canttStationParkingForm.value.dateOptions.getMonth() + 1)
 		console.log(this.canttStationParkingForm.value.dateOptions.getDate());
 		console.log(this.canttStationParkingForm.value.dateOptions.getYear());
-		this.date = this.canttStationParkingForm.value.dateOptions.getMonth() + 1 + "-" + this.canttStationParkingForm.value.dateOptions.getDate() + "-" + this.canttStationParkingForm.value.dateOptions.getYear();
-		console.log(this.date);
+		// this.date = this.canttStationParkingForm.value.dateOptions.getMonth() + 1 + "-" + this.canttStationParkingForm.value.dateOptions.getDate() + "-" + this.canttStationParkingForm.value.dateOptions.getYear();
+		// console.log(this.date);
+		this.date = this.canttStationParkingForm.value.dateOptions.toString();
+		this.date = this.date.slice(4, 15);
 		this.initializeTime = parseInt(this.canttStationParkingForm.value.timeOptions);
 		this.reservedHours = parseInt(this.canttStationParkingForm.value.reservedHoursOptions);
 		this.totalBookingHours = this.initializeTime + this.reservedHours;
@@ -184,7 +186,9 @@ export class CanttStationParkingComponent implements OnInit {
 		console.log(this.canttStationParkingForm.value);
 
 		// this.date = parseInt(this.demoForm.value.dateOptions);
-		this.date = this.canttStationParkingForm.value.dateOptions.getMonth() + 1 + "-" + this.canttStationParkingForm.value.dateOptions.getDate() + "-" + this.canttStationParkingForm.value.dateOptions.getYear();
+		// this.date = this.canttStationParkingForm.value.dateOptions.getMonth() + 1 + "-" + this.canttStationParkingForm.value.dateOptions.getDate() + "-" + this.canttStationParkingForm.value.dateOptions.getYear();
+	    this.date = this.canttStationParkingForm.value.dateOptions.toString();
+		this.date = this.date.slice(4, 15);
 		this.initializeTime = parseInt(this.canttStationParkingForm.value.timeOptions);
 		this.reservedHours = parseInt(this.canttStationParkingForm.value.reservedHoursOptions);
 		this.totalBookingHours = this.initializeTime + this.reservedHours;

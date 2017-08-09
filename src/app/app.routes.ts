@@ -17,7 +17,7 @@ import { AllUsersComponent } from './all-users/all-users.component';
 import { RootAdminComponent } from './root-admin/root-admin.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { AdminFeedbackComponent } from './admin-feedback/admin-feedback.component';
-
+import { UpdateProfileComponent } from './update-profile/update-profile.component';
 
 const routing: Routes = [
 	{ path: '', component: LoginComponent },
@@ -35,7 +35,8 @@ const routing: Routes = [
 			{ path: 'app-bookings', component: BookingsComponent },
 			{ path: 'app-my-bookings', component: MyBookingsComponent },
 			{ path: 'app-tables', component: TableFilteringExample },
-			{path : 'app-feedback' , component : FeedbackComponent}
+			{path : 'app-feedback' , component : FeedbackComponent},
+			{path : 'app-update-profile', component : UpdateProfileComponent}
 		]
 
 	},

@@ -7,13 +7,44 @@
 
 </md-toolbar>
 
+<!-- <div style="width : 30%;margin : 0 auto"> -->
+<!-- <div style="text-align : center;margin : 0 auto; width : 30%; background : orange"> -->
+<!-- <div style="text-align: center; width: auto;margin: 0 auto;" *ngFor="let chat of fetchUserChat | async">
+
+	<li *ngIf="chat.type == 'user'" style="list-style : none; width : 98%; border-top-left-radius: 12px; border-bottom-right-radius: 12px">
+		<span style="float : right;border-radius : 9px;background: blue;padding : 5px 10px">{{chat.name}}</span> <br><br>
+		<span style="float : right;border-radius : 9px;background: blue;padding : 5px 10px;text-align : right">{{chat.message}}</span>
+	</li>
+
+	<li *ngIf="chat.type == 'admin'" style="list-style : none;width : 90%;margin-bottom : 5px;overflow : hidden; border-top-right-radius: 12px; border-bottom-left-radius: 12px">
+		<span style="float : left;border-radius : 9px;background : green;padding : 5px 10px">{{chat.name}}</span> <br><br>
+		<span style="float:left;border-radius : 9px;background : green;padding : 5px 10px">{{chat.message}}</span>
+	</li>
+
+</div>
+</div> -->
+<!-- </div> -->
+  <div style="padding : 20px"></div>
+	<div style="width : 30%;margin : 0 auto;height:400px;overflow : auto">
+	<div *ngFor="let chat of fetchUserChat | async" style="text-align: center; width: auto;margin: 0 auto;">
+		
+		<li *ngIf="chat.type == 'user'" style="list-style: none; display : block; width : 90%;color: white; margin-bottom : 5px; overflow: hidden;  background-color: darkslateblue;  border-top-left-radius: 12px; border-bottom-right-radius: 12px">
+		<span style="float : right;border-radius : 9px;padding : 5px 10px">	{{chat.name}} </span> <br><br>
+		<span style="float : right;border-radius : 9px;padding:5px 10px;text-align : right"> {{chat.message}} </span>
+
+		</li>
+	  <li *ngIf="chat.type == 'admin'" style="list-style: none;width : 90%;color : black;margin-bottom : 5px;overflow : hidden; background-color: lightgrey;  border-top-right-radius: 12px; border-bottom-left-radius: 12px">
+		<span style="float : left;border-radius : 9px;padding : 5px 10px">  {{chat.name}}</span> <br> <br>
+		<span style="float : left;border-radius : 9px;padding : 5px 10px"> {{chat.message}}</span>
+	  </li>
+
+	</div>
+	</div>
 
 
-
-
-<div style="text-align : center;margin-top : 20%">	
-<textarea [(ngModel)]="userFeedback" name="styled-textarea" id="styled" onfocus="this.value=''" >Enter your feedback here...</textarea>
+<div style="text-align : center;margin-top : 10%">
+	<textarea [(ngModel)]="userFeedback" name="styled-textarea" id="styled" onfocus="this.value=''">Enter your feedback here...</textarea>
 </div>
 <div style="text-align : center">
-<button md-button color="primary" (click)="submitFeedback(userFeedback)">Submit</button>
+	<button md-button color="primary" (click)="submitFeedback(userFeedback)">Submit</button>
 </div>

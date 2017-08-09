@@ -20,6 +20,9 @@ export class AllUsersComponent implements OnInit {
 
 	fetchAllUsers: FirebaseListObservable<any>;
 	users : FirebaseListObservable<any>;
+	fetchParkingplaza : FirebaseListObservable<any>;
+	fetchChargedParking : FirebaseListObservable<any>;
+	fetchCanttStation : FirebaseListObservable<any>;
 	constructor(public dialog: MdDialog,
 		private afAuth: AngularFireAuth,
 		private db: AngularFireDatabase,
@@ -113,31 +116,39 @@ export class AllUsersComponent implements OnInit {
 		});
 	}
 
-	cancelUser(email) {
+	cancelUser(email,userUid) {
 		console.log(email);
+		console.log(userUid);
 		
-		this.users = this.db.list('/users', { preserveSnapshot: true });
-		this.users
-			.subscribe(snapshots => {
+		this.users = this.db.list('users/', { preserveSnapshot: true });
+		this.users.remove(userUid)
+		
 			
-				snapshots.forEach(snapshot => {
-					
-					console.log(snapshot.key);
-					console.log(snapshot.val());
-					
-					if(snapshot.val().userEmail == email){
-						
-						console.log(snapshot.val())
-						console.log(snapshot.key);
-						this.users.remove(snapshot.key)
-						
-					}
-					
-					
-				});
-			})
+			
+			this.cancelFromParkingPlaza(userUid);
+			this.cancelFromChargedParking(userUid);
+			this.cancelFromCanttStation(userUid);
 	}
+cancelFromParkingPlaza(userUid){
+	
+	
+this.fetchParkingplaza = this.db.list('parking-plaza/', { preserveSnapshot: true });
+this.fetchParkingplaza.remove(userUid)
 
+}
+cancelFromChargedParking(userUid){
+		
+this.fetchChargedParking = this.db.list('charged-parking/',  { preserveSnapshot: true });
+this.fetchChargedParking.remove(userUid)
+
+}
+
+cancelFromCanttStation(userUid){
+	
+this.fetchCanttStation = this.db.list('cantt-station/', { preserveSnapshot: true });
+this.fetchCanttStation.remove(userUid)
+
+}
 
 
 }

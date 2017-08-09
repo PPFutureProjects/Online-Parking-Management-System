@@ -53,6 +53,7 @@ import { RootAdminComponent } from './root-admin/root-admin.component';
 import { DialogResultExampleDialog } from './all-users/all-users.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { AdminFeedbackComponent } from './admin-feedback/admin-feedback.component';
+import { UpdateProfileComponent } from './update-profile/update-profile.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,9 @@ import { AdminFeedbackComponent } from './admin-feedback/admin-feedback.componen
 
     FeedbackComponent,
 
-    AdminFeedbackComponent
+    AdminFeedbackComponent,
+
+    UpdateProfileComponent
   ],
   entryComponents: [DialogResultExampleDialog],
   imports: [

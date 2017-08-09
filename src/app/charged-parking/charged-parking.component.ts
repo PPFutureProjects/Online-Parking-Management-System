@@ -131,8 +131,11 @@ export class ChargedParkingComponent implements OnInit {
 		console.log(this.chargedParkingForm.value.dateOptions.getMonth() + 1)
 		console.log(this.chargedParkingForm.value.dateOptions.getDate());
 		console.log(this.chargedParkingForm.value.dateOptions.getYear());
-		this.date = this.chargedParkingForm.value.dateOptions.getMonth() + 1 + "-" + this.chargedParkingForm.value.dateOptions.getDate() + "-" + this.chargedParkingForm.value.dateOptions.getYear();
-		console.log(this.date);
+		// this.date = this.chargedParkingForm.value.dateOptions.getMonth() + 1 + "-" + this.chargedParkingForm.value.dateOptions.getDate() + "-" + this.chargedParkingForm.value.dateOptions.getYear();
+		// console.log(this.date);
+		this.date = this.chargedParkingForm.value.dateOptions.toString();
+		this.date = this.date.slice(4, 15);
+
 		this.initializeTime = parseInt(this.chargedParkingForm.value.timeOptions);
 		this.reservedHours = parseInt(this.chargedParkingForm.value.reservedHoursOptions);
 		this.totalBookingHours = this.initializeTime + this.reservedHours;
@@ -179,7 +182,9 @@ export class ChargedParkingComponent implements OnInit {
 		console.log(this.chargedParkingForm.value);
 
 		// this.date = parseInt(this.demoForm.value.dateOptions);
-		this.date = this.chargedParkingForm.value.dateOptions.getMonth() + 1 + "-" + this.chargedParkingForm.value.dateOptions.getDate() + "-" + this.chargedParkingForm.value.dateOptions.getYear();
+		// this.date = this.chargedParkingForm.value.dateOptions.getMonth() + 1 + "-" + this.chargedParkingForm.value.dateOptions.getDate() + "-" + this.chargedParkingForm.value.dateOptions.getYear();
+		this.date = this.chargedParkingForm.value.dateOptions.toString();
+		this.date = this.date.slice(4, 15);
 		this.initializeTime = parseInt(this.chargedParkingForm.value.timeOptions);
 		this.reservedHours = parseInt(this.chargedParkingForm.value.reservedHoursOptions);
 		this.totalBookingHours = this.initializeTime + this.reservedHours;

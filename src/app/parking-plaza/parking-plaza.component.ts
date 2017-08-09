@@ -35,6 +35,7 @@ export class ParkingPlazaComponent implements OnInit {
 	// fetchDataOfParkingPlaza: FirebaseListObservable<any>
 
 	items: FirebaseListObservable<any>;
+	year;
 	minDate = new Date();
 	showCurrentBooking = false;
 	showParkingPlaza = true;
@@ -150,7 +151,11 @@ export class ParkingPlazaComponent implements OnInit {
 			})
 
 	}
-
+demo = true;		
+onHeroChange(event : Event){
+console.log(event);
+this.demo = false;
+}
 
 
 	submit() {
@@ -161,7 +166,14 @@ export class ParkingPlazaComponent implements OnInit {
 		console.log(this.demoForm.value.dateOptions.getMonth() + 1)
 		console.log(this.demoForm.value.dateOptions.getDate());
 		console.log(this.demoForm.value.dateOptions.getYear());
-		this.date = this.demoForm.value.dateOptions.getMonth() + 1 + "-" + this.demoForm.value.dateOptions.getDate() + "-" + this.demoForm.value.dateOptions.getYear();
+		this.year = this.demoForm.value.dateOptions.getYear() ;
+		console.log(this.year);
+		
+		// this.date = this.demoForm.value.dateOptions.getMonth() + 1 + "-" + this.demoForm.value.dateOptions.getDate() + "-" + this.demoForm.value.dateOptions.getYear();
+		
+		this.date = this.demoForm.value.dateOptions.toString();
+		console.log('date ! ' , this.date);
+		this.date = this.date.slice(4, 15);
 		console.log(this.date);
 		this.initializeTime = parseInt(this.demoForm.value.timeOptions);
 		this.reservedHours = parseInt(this.demoForm.value.reservedHoursOptions);
@@ -216,7 +228,9 @@ export class ParkingPlazaComponent implements OnInit {
 		console.log(this.times[4].viewValue);
 
 		// this.date = parseInt(this.demoForm.value.dateOptions);
-		this.date = this.demoForm.value.dateOptions.getMonth() + 1 + "-" + this.demoForm.value.dateOptions.getDate() + "-" + this.demoForm.value.dateOptions.getYear();
+		// this.date = this.demoForm.value.dateOptions.getMonth() + 1 + "-" + this.demoForm.value.dateOptions.getDate() + "-" + this.demoForm.value.dateOptions.getYear();
+		this.date = this.demoForm.value.dateOptions.toString();
+		this.date = this.date.slice(4, 15);
 		this.initializeTime = parseInt(this.demoForm.value.timeOptions);
 		this.reservedHours = parseInt(this.demoForm.value.reservedHoursOptions);
 		this.totalBookingHours = this.initializeTime + this.reservedHours;

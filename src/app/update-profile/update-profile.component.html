@@ -1,0 +1,57 @@
+<md-toolbar color="primary">
+
+	Parking-Management System
+	<span class="example-spacer"></span>
+	<button md-button color="warn" routerLink="../app-my-bookings">MY BOOKINGS</button>
+	<button md-button color="warn" routerLink="../app-feedback">FEEDBACK</button>
+	<button md-button color="warn" (click)="signOut()">SIGN OUT</button>
+
+
+</md-toolbar>
+
+
+<md-card>
+	<form [formGroup]="userUpdateForm">
+		<md-list>
+			<md-list-item style="margin-top:40px">
+				<md-input-container style="width : 200%">
+					<input  mdInput placeholder="update name"  formControlName="userName">
+				</md-input-container>
+			</md-list-item>
+			<md-list-item style="margin-top:40px">
+				<md-input-container style="width : 200%">
+					<input mdInput placeholder="Update Last Name" value="{{usersObject.userLastName}}" formControlName="userLastName">
+				</md-input-container>
+			</md-list-item>
+			<md-list-item style="margin-top:40px">
+				
+			
+			<md-input-container style="width : 200%"> 
+			<input  mdInput placeholder="Email"  type="email" value="{{usersObject.userEmail}}"  disabled>		 
+			  </md-input-container>
+			  	
+		</md-list-item >
+			<md-list-item style="margin-top:40px">
+				<md-input-container style="width : 200%">
+					<input mdInput placeholder="Update CNIC" value="{{usersObject.userCNIC}}" formControlName="userCNIC">
+				</md-input-container>
+			</md-list-item>
+			<md-list-item style="margin-top:40px">
+				<md-input-container style="width : 200%">
+					<input mdInput placeholder="Update Address" value="{{usersObject.userAddress}}" formControlName="userAddress">
+				</md-input-container>
+			</md-list-item>
+			<md-list-item style="margin-top:40px">
+				<md-input-container style="width : 200%">
+					<input mdInput placeholder="Update Mobile No." value="{{usersObject.userTelephone}}" formControlName="userTelephone">
+				</md-input-container>
+			</md-list-item>
+			<md-list-item style="margin-top:40px">
+				<md-card-actions style="width : 200%;text-align : center">
+					<button md-button (click)="submit()">SUBMIT</button>
+				</md-card-actions>
+			</md-list-item>
+		</md-list>
+
+	</form>
+</md-card>

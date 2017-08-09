@@ -15,7 +15,8 @@ import { FeedbackService } from "../providers/feedback.service";
 })
 export class FeedbackComponent implements OnInit {
 	items: FirebaseObjectObservable<any>;
-    userName;
+	fetchUserChat : FirebaseListObservable<any>;
+	userName;
 
 	constructor(private afAuth: AngularFireAuth,
 		private db: AngularFireDatabase,
@@ -23,7 +24,7 @@ export class FeedbackComponent implements OnInit {
 		private authService: AuthService) { }
 
 	ngOnInit() {
-
+     this.fetchUserChat = this.db.list('feedback/' + this.authService.currentUserId);
 	}
 	submitFeedback(userFeedback) {
 		
