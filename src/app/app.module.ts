@@ -54,7 +54,7 @@ import { DialogResultExampleDialog } from './all-users/all-users.component';
 import { FeedbackComponent } from './feedback/feedback.component';
 import { AdminFeedbackComponent } from './admin-feedback/admin-feedback.component';
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
-
+// import { ResultDialog  } from './parking-plaza/parking-plaza.component'
 @NgModule({
   declarations: [
     AppComponent,
@@ -74,7 +74,7 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
     RootAdminComponent,
 
     DialogResultExampleDialog,
-
+    
     FeedbackComponent,
 
     AdminFeedbackComponent,

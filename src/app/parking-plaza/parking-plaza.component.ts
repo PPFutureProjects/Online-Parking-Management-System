@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
+
+
+
 
 import { AuthService } from "../providers/auth.service";
 import { Router } from "@angular/router";
@@ -105,7 +108,13 @@ export class ParkingPlazaComponent implements OnInit {
 		{ reserved: false, slotNumber: 2 },
 		{ reserved: false, slotNumber: 3 },
 		{ reserved: false, slotNumber: 4 },
-		{ reserved: false, slotNumber: 5 }
+		{ reserved: false, slotNumber: 5 },
+		{ reserved: false, slotNumber: 6 },
+		{ reserved: false, slotNumber: 7 },
+		{ reserved: false, slotNumber: 8 },
+		{ reserved: false, slotNumber: 9 },
+		{ reserved: false, slotNumber: 10 },
+
 	]
 
 
@@ -151,11 +160,25 @@ export class ParkingPlazaComponent implements OnInit {
 			})
 
 	}
-demo = true;		
-onHeroChange(event : Event){
-console.log(event);
-this.demo = false;
-}
+	isTime = false;
+	isReservedHours = false;
+	isSubmitButton = true;
+
+	onDateChange(event: Event) {
+		
+		console.log(event);
+
+
+		this.isTime = true;
+	}
+	onTimeChange(event: Event) {
+		this.isReservedHours = true;
+
+	}
+
+	onReservedHrsChange(event: Event) {
+		this.isSubmitButton = true;
+	}
 
 
 	submit() {
@@ -166,13 +189,13 @@ this.demo = false;
 		console.log(this.demoForm.value.dateOptions.getMonth() + 1)
 		console.log(this.demoForm.value.dateOptions.getDate());
 		console.log(this.demoForm.value.dateOptions.getYear());
-		this.year = this.demoForm.value.dateOptions.getYear() ;
+		this.year = this.demoForm.value.dateOptions.getYear();
 		console.log(this.year);
-		
+
 		// this.date = this.demoForm.value.dateOptions.getMonth() + 1 + "-" + this.demoForm.value.dateOptions.getDate() + "-" + this.demoForm.value.dateOptions.getYear();
-		
+
 		this.date = this.demoForm.value.dateOptions.toString();
-		console.log('date ! ' , this.date);
+		console.log('date ! ', this.date);
 		this.date = this.date.slice(4, 15);
 		console.log(this.date);
 		this.initializeTime = parseInt(this.demoForm.value.timeOptions);
@@ -210,10 +233,33 @@ this.demo = false;
 				}
 			}
 		}
+		this.showParkingPlaza = false;
 		this.allSlots = true;
 
 
 	}
+
+
+
+	back() {
+
+		this.demoForm = this.fb.group({
+			timeOptions: '',
+			reservedHoursOptions: '',
+			dateOptions: '',
+
+		});
+
+	
+		// this.router.navigate(['../parking-plaza'])
+		
+		// this.times = [];
+		// this.reserved_hours = []
+		this.allSlots = false;
+		this.showParkingPlaza = true;
+
+	}
+
 	obj: {
 		date: '',
 		slotNum: '',
@@ -268,7 +314,7 @@ this.demo = false;
 					console.log(snapshot.key);
 					// this.fetchBooking = this.db.list('parking-plaza/' + this.afAuth.auth.currentUser.uid + snapshot.key);
 					// this.fetchBooking.set({name : 'tahir'})
-					    
+
 					if (snapshot.val().selectedDate == date && snapshot.val().timeDuration == timeDuration) {
 						// Current booking key
 						this.currentBookingKey = snapshot.key
@@ -300,7 +346,7 @@ this.demo = false;
 				});
 			})
 		setTimeout(() => {
-			
+
 			this.router.navigate(['dashboard'])
 		}, 1000)
 	}
