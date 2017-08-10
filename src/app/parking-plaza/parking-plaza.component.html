@@ -13,7 +13,7 @@
 		   <!-- <div *ngIf="demo">demo of div</div> -->
 		   <div style="margin: 3%;padding : 40px">
 			<md-input-container >
-				<input mdInput #picker [mdDatepicker]="picker" (ngModelChange)="onDateChange($event)" [min]="minDate" placeholder="Choose a date" formControlName="dateOptions">
+				<input mdInput  [mdDatepicker]="picker" (ngModelChange)="onDateChange($event)" [min]="minDate" placeholder="Choose a date" formControlName="dateOptions">
 				<button mdSuffix [mdDatepickerToggle]="picker"></button>
 			</md-input-container>
 			<md-datepicker #picker></md-datepicker>
@@ -38,7 +38,7 @@
 			</div>
 
 			<div *ngIf="isSubmitButton">
-				<input #ipt value="viewChild works!!" />
+				
 				<!-- <button md-button (click)="openDialog()">Open dialog</button> -->
 			<button style="width: 200px" color="primary" md-raised-button (click)="submit()">SUBMIT</button>
 			</div>
@@ -55,7 +55,7 @@
 		<div *ngIf="allSlots" >
 			<div style="margin: 10px">
 		       <a md-mini-fab (click)="back()"><i class="material-icons">arrow_back</i></a>
-		       <!-- <button> <i class="material-icons">arrow_back</i></button> -->
+		      
 	       </div>
 			<md-card style="background : orange;text-align : center">
 			<div *ngFor="let a of buttons;let i = index" style="background : green;display : inline;text-align : center">

@@ -162,7 +162,7 @@ export class ParkingPlazaComponent implements OnInit {
 	}
 	isTime = false;
 	isReservedHours = false;
-	isSubmitButton = true;
+	isSubmitButton = false;
 
 	onDateChange(event: Event) {
 		
@@ -249,12 +249,6 @@ export class ParkingPlazaComponent implements OnInit {
 			dateOptions: '',
 
 		});
-
-	
-		// this.router.navigate(['../parking-plaza'])
-		
-		// this.times = [];
-		// this.reserved_hours = []
 		this.allSlots = false;
 		this.showParkingPlaza = true;
 
@@ -302,7 +296,8 @@ export class ParkingPlazaComponent implements OnInit {
 
 
 		this.getCurrentBooking(this.date, this.TimeDuration);
-	}
+this.allSlots = false;	
+}
 
 	getCurrentBooking(date, timeDuration) {
 

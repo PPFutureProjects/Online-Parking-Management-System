@@ -75,7 +75,13 @@ export class ChargedParkingComponent implements OnInit {
 		{ reserved: false, slotNumber: 2 },
 		{ reserved: false, slotNumber: 3 },
 		{ reserved: false, slotNumber: 4 },
-		{ reserved: false, slotNumber: 5 }
+		{ reserved: false, slotNumber: 5 },
+		{ reserved: false, slotNumber: 6 },
+		{ reserved: false, slotNumber: 7 },
+		{ reserved: false, slotNumber: 8 },
+		{ reserved: false, slotNumber: 9 },
+		{ reserved: false, slotNumber: 10 },
+		
 	]
 
 
@@ -121,6 +127,27 @@ export class ChargedParkingComponent implements OnInit {
 			})
 
 	}
+
+	isTime = false;
+	isReservedHours = false;
+	isSubmitButton = false;
+
+	onDateChange(event: Event) {
+		
+		console.log(event);
+
+
+		this.isTime = true;
+	}
+	onTimeChange(event: Event) {
+		this.isReservedHours = true;
+
+	}
+
+	onReservedHrsChange(event: Event) {
+		this.isSubmitButton = true;
+	}
+
 
 
 	submit() {
@@ -168,8 +195,22 @@ export class ChargedParkingComponent implements OnInit {
 				}
 			}
 		}
+		this.showChargedPlaza = false;
 		this.allSlots = true;
 
+
+
+	}
+		back() {
+
+		this.chargedParkingForm = this.fb.group({
+			timeOptions: '',
+			reservedHoursOptions: '',
+			dateOptions: '',
+
+		});
+		this.allSlots = false;
+		this.showChargedPlaza = true;
 
 	}
 	obj: {
@@ -206,6 +247,7 @@ export class ChargedParkingComponent implements OnInit {
 
 		this.userBookingArray.push(this.obj);
 		this.getCurrentBooking(this.date, this.TimeDuration);
+		this.allSlots = false;
 	}
 
 
