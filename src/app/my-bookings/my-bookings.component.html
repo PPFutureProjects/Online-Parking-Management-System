@@ -2,65 +2,74 @@
 
 	Parking-Management System
 	<span class="example-spacer"></span>
-	<button md-button color="warn" (click)="signOut()">SIGN OUT</button>
+	<button md-button  (click)="signOut()">SIGN OUT</button>
 
 
 </md-toolbar>
 
 <md-tab-group>
 	<md-tab label="Parking Plaza">
-		<table>
+		<table class="container">
+			<thead>
 			<tr>
-				<th>Date</th>
-				<th>Slot Number</th>
-				<th>Booking Time</th>
-				<th>Cancel Booking</th>
+				<th><h1>Date</h1></th>
+				<th><h1>Slot Number</h1></th>
+				<th><h1>Booking Time</h1></th>
+				<th><h1>Cancel Booking</h1></th>
 			</tr>
+			</thead>
+		<tbody>	
 			<tr *ngFor="let a of parkingPlazaArray">
 				 <!-- <td >{{a | json}}</td>  -->
 				<td>{{a.selectedDate}}</td>
 				<td>{{a.slot}}</td>
 				<td>{{a.timeDuration}}</td>
-				<td><button md-raised-button color="warn" (click)="cancelBookingOfParkingPlaza(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>
+				<td><button style="position:relative;left : 30%" md-raised-button color="warn" (click)="cancelBookingOfParkingPlaza(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>
 			</tr>
-
+         </tbody>
 		</table>
 	</md-tab>
 	<md-tab label="Charged Parking">
-		<table>
+		<table class="container">
+			<thead>
 			<tr>
-				<th>Date</th>
-				<th>Slot Number</th>
-				<th>Booking Time</th>
-				<th>Cancel Booking</th>
+				<th><h1>Date</h1></th>
+				<th><h1>Slot Number</h1></th>
+				<th><h1>Booking Time</h1></th>
+				<th><h1>Cancel Booking</h1></th>
 			</tr>
+			</thead>
+		<tbody>	
 			<tr *ngFor="let a of ChargedParkingArray">
 				<!-- <td >{{a.date}}</td> -->
 				<td>{{a.selectedDate}}</td>
 				<td>{{a.slot}}</td>
 				<td>{{a.timeDuration}}</td>
-				<td><button md-raised-button color="warn" (click)="cancelBookingOfChargedParking(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>
+				<td><button style="position:relative;left : 30%" md-raised-button color="warn" (click)="cancelBookingOfChargedParking(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>
 			</tr>
-
+        </tbody>	
 		</table>
 
 	</md-tab>
 	<md-tab label="Cantt Station Parking">
-		<table>
+		<table class="container">
+			<thead>
 			<tr>
-				<th>Date</th>
-				<th>Slot Number</th>
-				<th>Booking Time</th>
-				<th>Cancel Booking</th>
+				<th><h1>Date</h1></th>
+				<th><h1>Slot Number</h1></th>
+				<th><h1>Booking Time</h1></th>
+				<th><h1>Cancel Booking</h1></th>
 			</tr>
+			</thead>
+		<tbody>	
 			<tr *ngFor="let a of CanttStaionArray">
 				<!-- <td >{{a.date}}</td> -->
 				<td>{{a.selectedDate}}</td>
 				<td>{{a.slot}}</td>
 				<td>{{a.timeDuration}}</td>
-				<td><button md-raised-button color="warn" (click)="cancelBookingForCanttStation(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>
+				<td><button style="position:relative;left : 30%" md-raised-button color="warn" (click)="cancelBookingForCanttStation(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>
 			</tr>
-
+        </tbody>	
 		</table>
 	</md-tab>
 </md-tab-group>

@@ -2,16 +2,19 @@
 
   Parking-Management System
   <span class="example-spacer"></span>
-   <button md-button color="warn" routerLink="app-my-bookings">MY BOOKINGS</button>
-   <button md-button color="warn" routerLink="app-feedback">FEEDBACK</button>
-   <button md-button color="warn" routerLink="app-update-profile">UPDATE PROFILE</button>
-  <button md-button color="warn" (click)="signOut()">SIGN OUT</button>
- 
+  <div>	
+   <button md-button  routerLink="app-my-bookings">MY BOOKINGS</button>
+   <button md-button  routerLink="app-feedback">FEEDBACK</button>
+   <button md-button  routerLink="app-update-profile">UPDATE PROFILE</button>
+  <button md-button  (click)="signOut()">SIGN OUT</button>
+ </div>
 
 </md-toolbar>
 
  <!--<button md-button color="warn" routerLink="demo">DEMO</button>-->
-<md-card style="margin: 20px;">
+ <h2 style="text-align : center;font-family:sans-serif">Please select One Location For Booking</h2>
+ <hr>
+<md-card style="margin: 20px" (click)="chargedParking()">
   <md-card-title>
     Charged Parking
   </md-card-title>
@@ -20,12 +23,12 @@
     Address : 
     Charged Parking Near Abullah Haroon Road,M.A Jinnah Road, Karachi.
   </md-card-content>
-  <md-card-actions>
+   <!-- <md-card-actions>
     <button color="primary" md-button routerLink="charged-parking">Booking</button>
-  </md-card-actions>
+  </md-card-actions>  -->
 </md-card>
 
-<md-card style="margin: 20px;">
+<md-card style="margin: 20px;cursor : pointer" (click)="canttStation()" >
   <md-card-title>
     Cantt. Station Car Park
   </md-card-title>
@@ -35,12 +38,12 @@
     Cantt. Station Car Park, Business Recorder Rd, Karachi, Pakistan.
   </md-card-content>
   <md-card-actions>
-    <button color="primary" md-button routerLink="cantt-station-parking">Booking</button>
+    <!-- <button color="primary" md-button routerLink="cantt-station-parking">Booking</button> -->
   </md-card-actions>
 </md-card>
 
 
-<md-card style="margin: 20px;">
+<md-card style="margin: 20px;cursor : pointer" (click)="parkingPlaza()" >
   <md-card-title>
     Parking Plaza
   </md-card-title>
@@ -50,7 +53,7 @@
     Parking Plaza, New MA Jinnah Road,Saddar, Karachi.
   </md-card-content>
   <md-card-actions>
-    <button color="primary" md-button routerLink="parking-plaza">Booking</button>
+    <!-- <button color="primary" md-button routerLink="parking-plaza">Booking</button> -->
   </md-card-actions>
 </md-card>
 

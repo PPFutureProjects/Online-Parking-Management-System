@@ -2,12 +2,12 @@
 
 	Parking-Management System
 	<span class="example-spacer"></span>
-	<button md-button color="warn" (click)="signOut()">SIGN OUT</button>
+	<button md-button  (click)="signOut()">SIGN OUT</button>
 
 
 </md-toolbar>
 
-	  	<table>
+	  <table style="width: 100%;" class="rwd-table">
 			<tr>
 				<th>NAME</th>
 				<th>EMAIL</th>
@@ -20,10 +20,10 @@
 			
 				<td>{{a.userName}}</td>
 				<td>{{a.userEmail}}</td>
-				<td><button md-button color="primary" (click)="openDialog(a.userUid)">Details</button></td>
+				<td><button md-raised-button color="primary" (click)="openDialog(a.userUid)">Details</button></td>
 				<!-- <div style="position: relative;right: 60%;">	 -->
 				<td  style="position: relative;right: 10%;" >
-				<button md-button color="warn" (click)="cancelUser(a.userEmail,a.userUid)">Remove</button>
+				<button md-raised-button color="warn" (click)="cancelUser(a.userEmail,a.userUid)">Remove</button>
 				</td>
                   <!-- </div> -->
 				<!--<td><button md-raised-button color="warn" (click)="cancelBookingOfChargedParking(a.selectedDate,a.timeDuration,a.userKey)">Cancel</button></td>-->

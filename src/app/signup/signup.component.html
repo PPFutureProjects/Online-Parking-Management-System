@@ -1,64 +1,70 @@
 <md-toolbar color="primary">
-  
-Parking-Management System
-  <span class="example-spacer"></span>
-  <button md-button color="warn" routerLink="/">LOGIN</button>
-  <!--<button md-button color="warn">Click me 2!</button>-->
-  </md-toolbar>
+
+	Parking-Management System
+	<span class="example-spacer"></span>
+	<button md-button  routerLink="/">LOGIN</button>
+	<!--<button md-button color="warn">Click me 2!</button>-->
+</md-toolbar>
 
 <h3 class="page-heading">SIGNUP</h3>
-<hr class="hr" >
+<hr class="hr">
 
 
-  <md-card style="width: 400px;margin: 0 auto;">
-  
-  <form [formGroup]="signupForm">
-  <md-list>
-	   <md-list-item class="center-list" >
-      <md-input-container>
-        <input formControlName="userName" mdInput placeholder="Name" >
-      </md-input-container>
-	</md-list-item>
-	 <md-list-item class="center-list" >
-      <md-input-container>
-        <input formControlName="userLastName" mdInput placeholder="Last Name" >
-      </md-input-container>
-    </md-list-item>
+<md-card style="width: 400px;margin: 0 auto;">
 
-    <md-list-item class="center-list" >
-      <md-input-container>
-        <input formControlName="userEmail" mdInput placeholder="Email" >
-      </md-input-container>
-    </md-list-item>
+	<form [formGroup]="signupForm">
+		<md-list>
+			<md-list-item class="center-list">
+				<md-input-container>
+					<input formControlName="userName" mdInput placeholder="Name">
+					<md-error>This field is required</md-error>
+				</md-input-container>
+			</md-list-item>
+			<md-list-item class="center-list">
+				<md-input-container>
+					<input formControlName="userLastName" mdInput placeholder="Last Name">
+					<md-error>This field is required</md-error>
+				</md-input-container>
+			</md-list-item>
+
+			<md-list-item class="center-list">
+				<md-input-container>
+					<input formControlName="userEmail" mdInput placeholder="Email">
+					<md-error>This field is required</md-error>
+				</md-input-container>
+			</md-list-item>
 
 
-    
-    <md-list-item class="center-list">
-      <md-input-container>
-        <input formControlName="userPassword" mdInput placeholder="Password" >
-      </md-input-container>
-	</md-list-item>
-	 <md-list-item class="center-list" >
-      <md-input-container>
-        <input formControlName="userTelephone" mdInput placeholder="Telephone" >
-      </md-input-container>
-	</md-list-item>
-	 <md-list-item class="center-list" >
-      <md-input-container>
-        <input formControlName="userCNIC" mdInput placeholder="CNIC" >
-      </md-input-container>
-	</md-list-item>
-	 <md-list-item class="center-list" >
-      <md-input-container>
-        <input formControlName="userAddress" mdInput placeholder="Address" >
-      </md-input-container>
-    </md-list-item>
 
-    <!--<md-list-item>Item 3</md-list-item>-->
-  </md-list>
-  <div style="text-align:center">
-  <button md-button color="primary" (click)="submit()">SUBMIT</button>
-  </div>
-  </form>
+			<md-list-item class="center-list">
+				<md-input-container>
+					<input formControlName="userPassword" mdInput placeholder="Password">
+					<md-error>This field is required</md-error>
+				</md-input-container>
+			</md-list-item>
+			<md-list-item class="center-list">
+				<md-input-container>
+					<input formControlName="userTelephone" mdInput placeholder="Telephone">
+					<md-error>This field is required</md-error>
+				</md-input-container>
+			</md-list-item>
+			<md-list-item class="center-list">
+				<md-input-container>
+					<input formControlName="userCNIC" mdInput placeholder="CNIC">
+					<md-error>This field is required</md-error>
+				</md-input-container>
+			</md-list-item>
+			<md-list-item class="center-list">
+				<md-input-container>
+					<input formControlName="userAddress" mdInput placeholder="Address">
+					<md-error>This field is required</md-error>
+				</md-input-container>
+			</md-list-item>
+
+			<!--<md-list-item>Item 3</md-list-item>-->
+		</md-list>
+		<div style="text-align:center">
+			<button md-button color="primary" [disabled]="!this.signupForm.valid" (click)="submit()">SUBMIT</button>
+		</div>
+	</form>
 </md-card>
-

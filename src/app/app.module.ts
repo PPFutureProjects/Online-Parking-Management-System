@@ -35,6 +35,8 @@ import {CdkTableModule} from "@angular/cdk";
 import {MdTabsModule} from '@angular/material';
 import {MdDialogModule} from '@angular/material';
 
+import {MD_ERROR_GLOBAL_OPTIONS,showOnDirtyErrorStateMatcher } from "@angular/material"
+
 // services
 import { AuthService } from "./providers/auth.service";
 import { AuthGuardGuard } from "./providers/auth-guard.guard";
@@ -111,7 +113,7 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
 
 
   ],
-  providers: [AuthService,AuthGuardGuard,FeedbackService],
+  providers: [AuthService,AuthGuardGuard,FeedbackService, {provide: MD_ERROR_GLOBAL_OPTIONS, useValue: { errorStateMatcher: showOnDirtyErrorStateMatcher }}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

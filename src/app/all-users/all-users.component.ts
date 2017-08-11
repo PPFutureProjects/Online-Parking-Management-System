@@ -159,16 +159,46 @@ import { MD_DIALOG_DATA } from '@angular/material';
 	selector: 'dialog-result-example-dialog',
 	template: `
 		
-
-	    <ul style="text-align : center;list-style: none">
-		  <li style="margin: 20px;"><b>   Name</b>       : {{data.userName}}    </li>
-			<li style="margin: 20px;"><b> Last Name</b> : {{data.userLastName}}</li>
-			<li style="margin: 20px;"><b> Email</b>     : {{data.userEmail}}   </li>
-			<li style="margin: 20px;"><b> Telephone</b> : {{data.userTelephone}}</li>
-			<li style="margin: 20px;"><b> CNIC</b>      : {{data.userCNIC}}    </li>
-			<li style="margin: 20px;"><b> Address</b>   : {{data.userAddress}} </li>
+	<table style="text-align : center">
+	 
+	   <td> 
+			  
+	   <ul style="text-align : center;list-style: none">
+		<tr><li style="margin: 10px;"><b>   Name</b>           </li></tr>
+		<tr><li style="margin: 10px;"><b> Last Name</b>  </li></tr>
+		<tr><li style="margin: 10px;"><b> Email</b>         </li></tr>
+		<tr><li style="margin: 10px;"><b> Telephone</b>  </li></tr>
+		<tr><li style="margin: 10px;"><b> CNIC</b>           </li></tr>
+		<tr><li style="margin: 10px;"><b> Address</b>     </li></tr>
 		 </ul>
-	 		
+		</td>
+
+		<td >
+		 <ul style="list-style : none">
+		  <tr> <li style="margin: 10px;"><b> : </b></li></tr>
+		  <tr> <li style="margin: 10px;"><b>:</b></li></tr>
+		  <tr> <li style="margin: 10px;"><b>:</b></li></tr>
+		  <tr> <li style="margin: 10px;"><b>:</b></li></tr>
+		  <tr> <li style="margin: 10px;"><b>:</b></li></tr>
+		  <tr> <li style="margin: 10px;"><b>:</b></li></tr>
+			</ul>
+		</td>
+
+
+	
+	
+		<td>
+		 <ul style="list-style : none">
+		 <tr> <li style="margin: 10px;">{{data.userName}}</li> </tr>
+		 <tr> <li style="margin: 10px;">{{data.userLastName}}</li></tr>
+		  <tr> <li style="margin: 10px;">{{data.userEmail}}</li></tr>
+		  <tr> <li style="margin: 10px;">{{data.userTelephone}}</li></tr>
+		  <tr> <li style="margin: 10px;">{{data.userCNIC}}</li></tr>
+		  <tr> <li style="margin: 10px;">{{data.userAddress}}</li></tr>
+		  </ul>
+		</td>
+	</table>
+			
 
   <div style="text-align : center"> 
    <button md-button md-dialog-close="" (click)="close()">Close</button>

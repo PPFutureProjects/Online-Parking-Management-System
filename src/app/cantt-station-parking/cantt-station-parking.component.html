@@ -2,7 +2,7 @@
 
   Parking-Management System
   <span class="example-spacer"></span>
-  <button md-button color="warn" (click)="signOut()">SIGN OUT</button>
+  <button md-button (click)="signOut()">SIGN OUT</button>
 
 </md-toolbar>
 <div *ngIf="showCanttStation">
@@ -57,8 +57,9 @@
 
 
 
-				<div *ngIf="a.reserved == true">
+				<div *ngIf="a.reserved == true" style="display : inline">
 					<button style="color : black; background : yellow" md-raised-button>Booked</button>
+				<br *ngIf="(i % 3 == 2)"> 
 				</div>
 			</div>
 				</md-card>	

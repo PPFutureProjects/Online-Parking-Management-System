@@ -2,6 +2,10 @@
   flex: 1 1 auto;
 }
 
+.example-full-width {
+  width: 100%;
+}
+
 
 textarea#styled {
 	width: 500px;
@@ -12,4 +16,16 @@ textarea#styled {
 	/* background-image: url(bg.gif); */
 	background-position: bottom right;
 	background-repeat: no-repeat;
+}
+
+/* for custom scrollbar for webkit browser*/
+
+::-webkit-scrollbar {
+    width: 6px;
+} 
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+} 
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
 }

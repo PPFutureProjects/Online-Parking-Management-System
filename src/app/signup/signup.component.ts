@@ -18,13 +18,13 @@ export class SignupComponent implements OnInit {
 
   ngOnInit() {
     this.signupForm = this.fb.group({
-	  userName : 'user12',
-	  userLastName : 'user12 father',		
-      userEmail: 'u12@u.com',
-	  userPassword: '000000',
-	  userTelephone : '0312',
-	  userCNIC : '42000',
-	  userAddress : '12345'	
+	  userName : [null,Validators.required],
+	  userLastName : [null,Validators.required],	
+      userEmail: [null,Validators.required],
+	  userPassword: [null,Validators.required],
+	  userTelephone : [null,Validators.required],
+	  userCNIC :     [null,Validators.required],
+	  userAddress : [null,Validators.required],
     })
 
   }

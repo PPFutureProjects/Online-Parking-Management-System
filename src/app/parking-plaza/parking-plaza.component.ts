@@ -148,11 +148,31 @@ export class ParkingPlazaComponent implements OnInit {
 
 						console.log(snapshot.key)
 						console.log(snapshot.val())
+                       if(snapshot.val().slotBook == false){
+						   console.log(snapshot.val());
+						   
+						//    this.buttons[].reserved = true;
+							  for(let prop in this.buttons){
+								  console.log(prop);
+									console.log(this.buttons);
+									
+								  
+								  if(this.buttons[prop].slotNumber == snapshot.val().slot ){
+                                       console.log(this.buttons[prop]);
+								  this.buttons[prop].reserved = true;
+									}
+                                
+								
+							  }
+							//   this.buttons[this.slot - 1].reserved = true;
+					   }
+
 						this.allUsersSelectedDate = snapshot.val().selectedDate;
 						this.allUsersStartTime = snapshot.val().startTime
 						this.allUsersEndTime = snapshot.val().endTime
 						this.allUsersTimeDuration = snapshot.val().timeDuration;
 						this.allUserstimeDateAndSlotArray.push(this.allUsersSelectedDate, this.allUsersTimeDuration, snapshot.val().slot, this.allUsersStartTime, this.allUsersEndTime)
+
 
 
 					});
@@ -281,7 +301,7 @@ export class ParkingPlazaComponent implements OnInit {
 
 		this.sendUserBookingData = this.db.list('parking-plaza' + "/" + this.afAuth.auth.currentUser.uid);
 		this.sendUserBookingData.push({
-			place: 'parking-plaza', uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date,
+			slotBook : false,place: 'parking-plaza', uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date,
 			startTime: this.initializeTime, endTime: this.totalBookingHours, timeDuration: this.TimeDuration, slot: slotNumber
 		})
 
