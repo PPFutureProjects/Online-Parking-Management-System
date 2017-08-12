@@ -81,7 +81,14 @@ export class UpdateProfileComponent implements OnInit {
 	}
 
 	submit() {
-		console.log(this.userUpdateForm.value.userName);
+		this.authService.demoFunc(this.userUpdateForm.value)
+		console.log(this.authService.demoFunc2);
+		
+		console.log(this.authService.currentUserId);
+
+		
+		console.log(this.userUpdateForm.value);
+		
 		this.users = this.db.object('users/' + this.authService.currentUserId);
 		this.users.update({userName : this.userUpdateForm.value.userName, userLastName : this.userUpdateForm.value.userLastName,
 						  userCNIC : this.userUpdateForm.value.userCNIC , userAddress : this.userUpdateForm.value.userAddress,

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, DoCheck } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { AngularFireDatabaseModule, AngularFireDatabase, FirebaseListObservable, FirebaseObjectObservable } from 'angularfire2/database';
@@ -13,7 +13,8 @@ import { Router } from "@angular/router";
 	templateUrl: './parking-plaza.component.html',
 	styleUrls: ['./parking-plaza.component.css']
 })
-export class ParkingPlazaComponent implements OnInit {
+export class ParkingPlazaComponent implements OnInit, DoCheck {
+
 
 	demoForm: FormGroup;
 	// selectedDate;
@@ -116,7 +117,7 @@ export class ParkingPlazaComponent implements OnInit {
 		{ reserved: false, slotNumber: 10 },
 
 	]
-
+	newvalue;
 
 	constructor(private fb: FormBuilder,
 		private db: AngularFireDatabase,
@@ -129,12 +130,75 @@ export class ParkingPlazaComponent implements OnInit {
 
 	ngOnInit() {
 
+		this.fetchAllUsers = this.db.object('/parking-plaza', { preserveSnapshot: true });
+		this.fetchAllUsers
+			.subscribe(snapshots => {
+				this.newvalue = this.slotNumber;
+				console.log(this.newvalue)
+				snapshots.forEach(snapshot => {
+					// all users uid
+					console.log(snapshot.key)
+					console.log(snapshot.val())
+
+					snapshot.forEach(snapshot => {
+						//slot
+						console.log(snapshot.key)
+						console.log(snapshot.val())
+						//    if(snapshot.val().slot == false){
+						// 	   console.log(snapshot.val());
+
+						//    this.buttons[].reserved = true;
+						if (snapshot.val().slotBook == false) {
+							console.log(snapshot.val());
+
+
+
+							// 	if(snapshot.val().slotBook == false){//
+							// console.log(snapshot.val());
+
+							//   for(let prop in this.buttons){
+							// 	  if(this.buttons[prop].slotNumber == snapshot.val().slot ){
+							// 		  console.log(snapshot.val())
+							// 	        this.buttons[prop].reserved = true;
+							// 		}
+
+
+							//   }
+							//   this.buttons[this.slot - 1].reserved = true;
+							//    }
+
+							if (this.newvalue == snapshot.val().slot) {
+								console.log(snapshot.val());
+								for (let prop in this.buttons) {
+									if (this.buttons[prop].slotNumber == snapshot.val().slot) {
+										console.log(this.buttons[prop].reserved)
+										this.buttons[prop].reserved = true;
+										console.log(this.buttons[prop].reserved)
+										// console.log(this.buttons[prop].slotNumber)
+									}
+								}
+								// 
+								//    console.log(this.buttons[prop]);
+								//  this.buttons[prop].reserved = true;
+							}
+
+
+
+							//   this.buttons[this.slot - 1].reserved = true;
+						}
+					})
+				})
+			})
+
+
+
 		this.demoForm = this.fb.group({
 			timeOptions: '',
 			reservedHoursOptions: '',
 			dateOptions: '',
 
 		});
+
 
 		this.fetchAllUsers = this.db.object('parking-plaza', { preserveSnapshot: true });
 		this.fetchAllUsers
@@ -145,33 +209,35 @@ export class ParkingPlazaComponent implements OnInit {
 					console.log(snapshot.val())
 
 					snapshot.forEach(snapshot => {
-
+						//slot
 						console.log(snapshot.key)
 						console.log(snapshot.val())
-                       if(snapshot.val().slotBook == false){
-						   console.log(snapshot.val());
-						   
+						//    if(snapshot.val().slot == false){
+						// 	   console.log(snapshot.val());
+
 						//    this.buttons[].reserved = true;
-							  for(let prop in this.buttons){
-								  console.log(prop);
-									console.log(this.buttons);
-									
-								  
-								  if(this.buttons[prop].slotNumber == snapshot.val().slot ){
-                                       console.log(this.buttons[prop]);
-								  this.buttons[prop].reserved = true;
-									}
-                                
-								
-							  }
+						if (snapshot.val().slotBook == false) {
+							console.log(snapshot.val());
+
+							//   for(let prop in this.buttons){
+							//   if(this.buttons[prop].slotNumber == snapshot.val().slot ){
+							//   console.log(snapshot.val())
+							//    console.log(this.buttons[prop]);
+							// this.buttons[prop].reserved = true;
+							// }
+
+
+							//   }
 							//   this.buttons[this.slot - 1].reserved = true;
-					   }
+						}
 
 						this.allUsersSelectedDate = snapshot.val().selectedDate;
 						this.allUsersStartTime = snapshot.val().startTime
 						this.allUsersEndTime = snapshot.val().endTime
 						this.allUsersTimeDuration = snapshot.val().timeDuration;
 						this.allUserstimeDateAndSlotArray.push(this.allUsersSelectedDate, this.allUsersTimeDuration, snapshot.val().slot, this.allUsersStartTime, this.allUsersEndTime)
+						console.log(this.allUserstimeDateAndSlotArray);
+
 
 
 
@@ -184,8 +250,19 @@ export class ParkingPlazaComponent implements OnInit {
 	isReservedHours = false;
 	isSubmitButton = false;
 
+
+
+
+
+	ngDoCheck() {
+		// if(this.slotNumber) {
+		// 	alert("asd");
+		// }	
+	}
+
+
 	onDateChange(event: Event) {
-		
+
 		console.log(event);
 
 
@@ -201,10 +278,18 @@ export class ParkingPlazaComponent implements OnInit {
 	}
 
 
+
+
+
 	submit() {
+
+
+
 		for (var i = 0; i < this.buttons.length; i++) {
 			this.buttons[i].reserved = false;
 		}
+
+
 		console.log(this.demoForm.value);
 		console.log(this.demoForm.value.dateOptions.getMonth() + 1)
 		console.log(this.demoForm.value.dateOptions.getDate());
@@ -281,8 +366,10 @@ export class ParkingPlazaComponent implements OnInit {
 	}
 
 	slots(slotNumber) {
+		// this.ngOnInit(slotNumber)
 		this.obj = { date: '', slotNum: '', timeDuration: '' };
 		this.slotNumber = slotNumber
+		localStorage.setItem('slot', this.slotNumber);
 		console.log(this.demoForm.value);
 		console.log(this.slot);
 		console.log(this.times[4].viewValue);
@@ -301,7 +388,7 @@ export class ParkingPlazaComponent implements OnInit {
 
 		this.sendUserBookingData = this.db.list('parking-plaza' + "/" + this.afAuth.auth.currentUser.uid);
 		this.sendUserBookingData.push({
-			slotBook : false,place: 'parking-plaza', uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date,
+			slotBook: false, place: 'parking-plaza', uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date,
 			startTime: this.initializeTime, endTime: this.totalBookingHours, timeDuration: this.TimeDuration, slot: slotNumber
 		})
 
@@ -313,11 +400,77 @@ export class ParkingPlazaComponent implements OnInit {
 		this.obj.timeDuration = this.TimeDuration;
 		//  this.router.navigate(['dashboard/app-bookings'])
 		this.userBookingArray.push(this.obj);
-
+		this.abc(this.slotNumber)
 
 		this.getCurrentBooking(this.date, this.TimeDuration);
-this.allSlots = false;	
-}
+		this.allSlots = false;
+	}
+	abc(slotNumber) {
+
+		this.fetchAllUsers = this.db.object('/parking-plaza', { preserveSnapshot: true });
+		this.fetchAllUsers
+			.subscribe(snapshots => {
+
+
+				snapshots.forEach(snapshot => {
+					// all users uid
+					console.log(snapshot.key)
+					console.log(snapshot.val())
+
+					snapshot.forEach(snapshot => {
+						//slot
+						console.log(snapshot.key)
+						console.log(snapshot.val())
+						//    if(snapshot.val().slot == false){
+						// 	   console.log(snapshot.val());
+
+						//    this.buttons[].reserved = true;
+						if (snapshot.val().slotBook == false) {
+							console.log(snapshot.val());
+
+
+
+							// 	if(snapshot.val().slotBook == false){//
+							// console.log(snapshot.val());
+
+							//   for(let prop in this.buttons){
+							// 	  if(this.buttons[prop].slotNumber == snapshot.val().slot ){
+							// 		  console.log(snapshot.val())
+							// 	        this.buttons[prop].reserved = true;
+							// 		}
+
+
+							//   }
+							//   this.buttons[this.slot - 1].reserved = true;
+							//    }
+
+							if (slotNumber == snapshot.val().slot) {
+								console.log(snapshot.val());
+								for (let prop in this.buttons) {
+									if (this.buttons[prop].slotNumber == snapshot.val().slot) {
+										console.log(this.buttons[prop].reserved)
+										this.buttons[prop].reserved = true;
+										console.log(this.buttons[prop].reserved)
+										// console.log(this.buttons[prop].slotNumber)
+									}
+								}
+								// 
+								//    console.log(this.buttons[prop]);
+								//  this.buttons[prop].reserved = true;
+							}
+
+
+
+							//   this.buttons[this.slot - 1].reserved = true;
+						}
+					})
+				})
+			})
+
+
+
+
+	}
 
 	getCurrentBooking(date, timeDuration) {
 

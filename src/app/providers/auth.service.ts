@@ -45,9 +45,28 @@ export class AuthService {
 	}
 
 
+signupDemo;
+get demoFunc2() : any{
+return this.signupDemo;
+	// console.log(data2);
 
+}
+demoFunc(data){
+	console.log(data);
+	this.signupDemo  = data;
+	console.log(this.signupDemo);
+	console.log(this.demoFunc2);
+	
+	// this.demoFunc2()
+	
+
+	
+}
 	userSignup(signupData) {
-
+	// 	this.signupDemo = signupData
+	//    console.log(this.signupDemo);
+	//    this.demoFunc(this.signupDemo)
+	  
 		//// Email/Password Auth ////
 		return this.afAuth.auth.createUserWithEmailAndPassword(signupData.userEmail, signupData.userPassword)
 			.then((user) => {
