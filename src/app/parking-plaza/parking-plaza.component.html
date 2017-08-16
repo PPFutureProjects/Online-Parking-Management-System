@@ -84,6 +84,10 @@
 
 
 <div *ngIf="showCurrentBooking">
+	<div style="margin: 10px">
+		       <a md-mini-fab (click)="backAgain()"><i class="material-icons">arrow_back</i></a>
+		      
+	       </div>
 	<table>
 		<tr>
 			<th>Date</th>
@@ -91,12 +95,12 @@
 			<th>Booking Time</th>
 			<th>Cancel Booking</th>
 		</tr>
-		<tr *ngFor="let a of userBookingArray">
+		<tr *ngFor="let a of userBookingArray; let i = index">
 			<!-- <td >{{a.date}}</td> -->
 			 <td>{{a.date}}</td>
 			<td>{{a.slotNum}}</td>
 			<td>{{a.timeDuration}}</td> 
-			<td><button md-raised-button color="warn" (click)="cancelBooking()">Cancel</button></td>
+			<td><button md-raised-button color="warn" (click)="cancelBooking(i)">Cancel</button></td>
 		</tr>
 
 	</table>
