@@ -2,7 +2,13 @@
 
 	Parking-Management System
 	<span class="example-spacer"></span>
+	<div>
+	<button md-button  routerLink="/admin">HOME</button>
+	<button md-button  routerLink="../app-all-users">All USERS</button>
+	<button md-button  routerLink="app-admin-feedback">FEEDBACK</button>
 	<button md-button  (click)="signOut()">SIGN OUT</button>
+	
+    </div>
 
 
 </md-toolbar>
@@ -11,12 +17,12 @@
 
 
 
-
+<div style="padding : 10px "></div>
 <div *ngIf="showFeedbackUsers">
-	<md-card *ngFor="let a of usersArray">
-		<md-card-content style="padding: 5px;">
+	<md-card *ngFor="let a of usersArray" style="background :#CFD8DC">
+		<md-card-content style="padding: 10px;background: #607D8B;color : white">
 			{{a.name}}
-			<button md-button color="primary" style="float : right" (click)="message(a.uid)">Message</button>
+			<button md-raised-button color="primary" style="float : right" (click)="message(a.uid)">Message</button>
 		</md-card-content>
 		<!-- <md-card-actions>
 			

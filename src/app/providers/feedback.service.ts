@@ -19,26 +19,23 @@ export class FeedbackService implements OnInit {
 		private afAuth: AngularFireAuth,
 		private authService: AuthService) {
 
-
-
 	}
 
 
 	ngOnInit() {
 
-
 	}
 
 
 	userFeedback(userFeedback, userName) {
-		console.log(userName);
-		//   ;
+		// console.log(userName);
+
 
 		this.items = this.db.list('feedback/');
 		this.items.update(this.authService.currentUserId, { name: userName, uid: this.authService.currentUserId })
 		this.items = this.db.list('feedback/' + this.authService.currentUserId);
 		this.items.push({ message: userFeedback, name: userName, type: 'user' })
-		console.log(userFeedback);
+		// console.log(userFeedback);
 	}
 
 	AdminFeedback(feedback, selectedUser) {
@@ -55,22 +52,22 @@ export class FeedbackService implements OnInit {
 		this.fetchAdminUserChat
 			.subscribe(snapshots => {
 				snapshots.forEach(snapshot => {
-					console.log(snapshot.key)
-					console.log(snapshot.val().name)
+					// console.log(snapshot.key)
+					// console.log(snapshot.val().name)
 					this.chatUserNames.push(snapshot.val().name);
 					this.chatMessages.push(snapshot.val().message);
-					
+
 				});
-				
+
 			})
 
-	   
-		}
+
+	}
 	get getChatUserName(): any {
-		console.log(this.chatUserNames);
-	
+		// console.log(this.chatUserNames);
+
 		return this.chatUserNames;
-   }
+	}
 	get getChatMessages(): any {
 		return this.chatMessages;
 	}

@@ -2,7 +2,13 @@
 
 	Parking-Management System
 	<span class="example-spacer"></span>
-	<button md-button (click)="signOut()">SIGN OUT</button>
+	<div>
+		<button md-button routerLink="/dashboard">HOME</button>
+		<button md-button routerLink="/dashboard/app-my-bookings">MY BOOKINGS</button>
+		<button md-button routerLink="/dashboard/app-feedback">FEEDBACK</button>
+		<button md-button routerLink="/dashboard/app-update-profile">UPDATE PROFILE</button>
+		<button md-button (click)="signOut()">SIGN OUT</button>
+	</div>
 
 </md-toolbar>
 <div *ngIf="showChargedPlaza">
@@ -102,7 +108,7 @@
 		</thead>
 		<tbody>
 			<tr *ngFor="let a of userBookingArray">
-				<!-- <td >{{a.date}}</td> -->
+
 				<td>{{a.date}}</td>
 				<td>{{a.slotNum}}</td>
 				<td>{{a.timeDuration}}</td>

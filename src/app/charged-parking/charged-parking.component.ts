@@ -14,7 +14,7 @@ export class ChargedParkingComponent implements OnInit {
 
 	chargedParkingForm: FormGroup;
 	minDate = new Date();
-	items: FirebaseListObservable<any>;
+
 	// var of all users
 	allUsersSelectedDate;
 	allUsersTimeDuration;
@@ -31,15 +31,15 @@ export class ChargedParkingComponent implements OnInit {
 	slot;
 
 	allSlots;
-	month;
 
-	// var of slots Func
+
+
+	items: FirebaseListObservable<any>;
 	sendUserBookingData: FirebaseListObservable<any>;
 	fetchBooking: FirebaseListObservable<any>;
 	fetchAllUsers: FirebaseObjectObservable<any>;
 
 	showChargedPlaza = true;
-	showCurrentBooking = false;
 	fetchBookingForCancel: FirebaseListObservable<any>
 	currentBookingKey;
 	userBookingArray = [];
@@ -81,7 +81,7 @@ export class ChargedParkingComponent implements OnInit {
 		{ reserved: false, slotNumber: 8 },
 		{ reserved: false, slotNumber: 9 },
 		{ reserved: false, slotNumber: 10 },
-		
+
 	]
 
 
@@ -91,7 +91,7 @@ export class ChargedParkingComponent implements OnInit {
 		private authService: AuthService,
 		private router: Router,
 	) {
-    this.chargedParkingForm = this.fb.group({
+		this.chargedParkingForm = this.fb.group({
 			timeOptions: '',
 			reservedHoursOptions: '',
 			dateOptions: '',
@@ -102,36 +102,6 @@ export class ChargedParkingComponent implements OnInit {
 
 	ngOnInit() {
 
-		// this.chargedParkingForm = this.fb.group({
-		// 	timeOptions: '',
-		// 	reservedHoursOptions: '',
-		// 	dateOptions: '',
-
-		// });
-
-		// this.fetchAllUsers = this.db.object('charged-parking', { preserveSnapshot: true });
-		// this.fetchAllUsers
-		// 	.subscribe(snapshots => {
-		// 		snapshots.forEach(snapshot => {
-		// 			// all users uid
-		// 			console.log(snapshot.key)
-		// 			console.log(snapshot.val())
-
-		// 			snapshot.forEach(snapshot => {
-
-		// 				console.log(snapshot.key)
-		// 				console.log(snapshot.val())
-		// 				this.allUsersSelectedDate = snapshot.val().selectedDate;
-		// 				this.allUsersStartTime = snapshot.val().startTime
-		// 				this.allUsersEndTime = snapshot.val().endTime
-		// 				this.allUsersTimeDuration = snapshot.val().timeDuration;
-		// 				this.allUserstimeDateAndSlotArray.push(this.allUsersSelectedDate, this.allUsersTimeDuration, snapshot.val().slot, this.allUsersStartTime, this.allUsersEndTime)
-
-
-		// 			});
-		// 		});
-		// 	})
-
 	}
 
 	isTime = false;
@@ -139,8 +109,8 @@ export class ChargedParkingComponent implements OnInit {
 	isSubmitButton = false;
 
 	onDateChange(event: Event) {
-		
-		console.log(event);
+
+		// console.log(event);
 
 
 		this.isTime = true;
@@ -162,66 +132,55 @@ export class ChargedParkingComponent implements OnInit {
 			this.buttons[i].reserved = false;
 		}
 
-			
-		console.log("formmmmm",this.chargedParkingForm.value);
-		// this.date = this.demoForm.value.dateOptions.getMonth() + 1 + "-" + this.demoForm.value.dateOptions.getDate() + "-" + this.demoForm.value.dateOptions.getYear();
+
+		// console.log("formmmmm",this.chargedParkingForm.value);
 		this.date = this.chargedParkingForm.value.dateOptions.toString();
 		this.date = this.date.slice(4, 15);
-		 console.log("dateeee",this.date);
-		  this.initializeTime = parseInt(this.chargedParkingForm.value.timeOptions);
+		//  console.log("dateeee",this.date);
+		this.initializeTime = parseInt(this.chargedParkingForm.value.timeOptions);
 		this.reservedHours = parseInt(this.chargedParkingForm.value.reservedHoursOptions);
 		this.totalBookingHours = this.initializeTime + this.reservedHours;
-		console.log("bookinggggg",this.totalBookingHours);
+		// console.log("bookinggggg",this.totalBookingHours);
 
 		this.TimeDuration = this.initializeTime + " to " + this.totalBookingHours;
-		console.log(this.allUserstimeDateAndSlotArray);
+		// console.log(this.allUserstimeDateAndSlotArray);
 		this.fetchAllUsers = this.db.object('/charged-parking', { preserveSnapshot: true });
-		this.fetchAllUsers.subscribe(snapshots =>{
+		this.fetchAllUsers.subscribe(snapshots => {
 			snapshots.forEach(element => {
-				console.log("keyyyyyy",element.key);
+				// console.log("keyyyyyy",element.key);
 				element.forEach(snapshot => {
-					console.log("snapshottt",snapshot.key);
-				//	console.log("valueeee",snapshot.val());
-					if (this.date == snapshot.val().selectedDate){
-						console.log('if1');
-						 if (this.initializeTime == snapshot.val().startTime){
-							 console.log('if2');
+					// console.log("snapshottt",snapshot.key);
+					//	console.log("valueeee",snapshot.val());
+					if (this.date == snapshot.val().selectedDate) {
+						// console.log('if1');
+						if (this.initializeTime == snapshot.val().startTime) {
+							//  console.log('if2');
 							//  console.log(snapshot.val());
-							  
-							  this.buttons[(snapshot.val().slot-1)].reserved = true;
-						 }
-						else if (this.initializeTime != snapshot.val().startTime){
-							 console.log('if2 else');
-							 if ((snapshot.val().startTime > this.initializeTime && this.totalBookingHours > snapshot.val().startTime) || (this.initializeTime > snapshot.val().startTime   && this.initializeTime < snapshot.val().endTime)){
-								console.log('if3');
-							  this.buttons[(snapshot.val().slot-1)].reserved = true;
-							 }
+
+							this.buttons[(snapshot.val().slot - 1)].reserved = true;
 						}
-						
+						else if (this.initializeTime != snapshot.val().startTime) {
+							//  console.log('if2 else');
+							if ((snapshot.val().startTime > this.initializeTime && this.totalBookingHours > snapshot.val().startTime) || (this.initializeTime > snapshot.val().startTime && this.initializeTime < snapshot.val().endTime)) {
+								// console.log('if3');
+								this.buttons[(snapshot.val().slot - 1)].reserved = true;
+							}
+						}
+
 					}
 				});
 			});
-		this.showChargedPlaza = false;
-		 this.allSlots = true;
+			this.showChargedPlaza = false;
+			this.allSlots = true;
 		})
 
 	}
-		back() {
-
-		this.chargedParkingForm = this.fb.group({
-			timeOptions: '',
-			reservedHoursOptions: '',
-			dateOptions: '',
-
-		});
+	back() {
 		this.allSlots = false;
 		this.showChargedPlaza = true;
 
 	}
-		backAgain(){
-    this.showCurrentBooking = false;
-    this.allSlots = true;	
-}
+
 	obj: {
 		date: '',
 		slotNum: '',
@@ -229,10 +188,9 @@ export class ChargedParkingComponent implements OnInit {
 	}
 	slots(slotNumber) {
 		this.obj = { date: '', slotNum: '', timeDuration: '' };
-		console.log(this.chargedParkingForm.value);
+		// console.log(this.chargedParkingForm.value);
 
-		// this.date = parseInt(this.demoForm.value.dateOptions);
-		// this.date = this.chargedParkingForm.value.dateOptions.getMonth() + 1 + "-" + this.chargedParkingForm.value.dateOptions.getDate() + "-" + this.chargedParkingForm.value.dateOptions.getYear();
+
 		this.date = this.chargedParkingForm.value.dateOptions.toString();
 		this.date = this.date.slice(4, 15);
 		this.initializeTime = parseInt(this.chargedParkingForm.value.timeOptions);
@@ -243,12 +201,11 @@ export class ChargedParkingComponent implements OnInit {
 
 		this.sendUserBookingData = this.db.list('charged-parking' + "/" + this.afAuth.auth.currentUser.uid);
 		this.sendUserBookingData.push({
-			place : 'charged-parking',uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date,
+			place: 'charged-parking', uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date,
 			startTime: this.initializeTime, endTime: this.totalBookingHours, timeDuration: this.TimeDuration, slot: slotNumber
 		})
 
 		this.showChargedPlaza = false;
-		this.showCurrentBooking = true;
 
 		this.obj.date = this.date;
 		this.obj.slotNum = slotNumber;
@@ -256,7 +213,8 @@ export class ChargedParkingComponent implements OnInit {
 
 		this.userBookingArray.push(this.obj);
 		this.getCurrentBooking(this.date, this.TimeDuration);
-		this.allSlots = false;
+
+		this.router.navigate(['/dashboard/app-my-bookings'])
 	}
 
 
@@ -267,43 +225,19 @@ export class ChargedParkingComponent implements OnInit {
 		this.fetchBooking
 			.subscribe(snapshots => {
 				snapshots.forEach(snapshot => {
-					console.log(snapshot.key)
+					// console.log(snapshot.key)
 					if (snapshot.val().selectedDate == date && snapshot.val().timeDuration == timeDuration) {
 						// Current booking key
 						this.currentBookingKey = snapshot.key
-						console.log(snapshot.key);
-						console.log(snapshot.val())
+						// console.log(snapshot.key);
+						// console.log(snapshot.val())
 					}
 				});
 			});
 
 
 	}
-	cancelBooking() {
 
-		this.fetchBookingForCancel = this.db.list('charged-parking/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
-		this.fetchBookingForCancel
-			.subscribe(snapshots => {
-				this.userBookingArray = [];
-				snapshots.forEach(snapshot => {
-					console.log(snapshot.key)
-					console.log(snapshot.val())
-					if (snapshot.key == this.currentBookingKey) {
-						console.log(snapshot.key);
-						console.log(snapshot.val());
-						this.fetchBookingForCancel.remove(snapshot.key)
-
-
-
-					}
-				});
-			})
-			this.allSlots = false;
-		setTimeout(() => {
-
-			this.router.navigate(['dashboard'])
-		}, 1000)
-	}
 
 	signOut() {
 		this.authService.signOut();

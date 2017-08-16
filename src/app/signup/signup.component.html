@@ -2,8 +2,7 @@
 
 	Parking-Management System
 	<span class="example-spacer"></span>
-	<button md-button  routerLink="/">LOGIN</button>
-	<!--<button md-button color="warn">Click me 2!</button>-->
+	<button md-button routerLink="/">LOGIN</button>
 </md-toolbar>
 
 <h3 class="page-heading">SIGNUP</h3>
@@ -16,21 +15,21 @@
 		<md-list>
 			<md-list-item class="center-list">
 				<md-input-container>
-					<input formControlName="userName" mdInput placeholder="Name">
-					<md-error>This field is required</md-error>
+					<input type="text"  formControlName="userName" mdInput placeholder="Name">
+					<md-error>Name required</md-error>
 				</md-input-container>
 			</md-list-item>
 			<md-list-item class="center-list">
 				<md-input-container>
-					<input formControlName="userLastName" mdInput placeholder="Last Name">
-					<md-error>This field is required</md-error>
+					<input type="text" formControlName="userLastName" mdInput placeholder="Last Name">
+					<md-error>Last Name is required</md-error>
 				</md-input-container>
 			</md-list-item>
 
 			<md-list-item class="center-list">
 				<md-input-container>
-					<input formControlName="userEmail" mdInput placeholder="Email">
-					<md-error>This field is required</md-error>
+					<input type="email" formControlName="userEmail" mdInput placeholder="Email">
+					<md-error>Email is required</md-error>
 				</md-input-container>
 			</md-list-item>
 
@@ -38,33 +37,33 @@
 
 			<md-list-item class="center-list">
 				<md-input-container>
-					<input formControlName="userPassword" mdInput placeholder="Password">
-					<md-error>This field is required</md-error>
+					<input type="password" formControlName="userPassword" mdInput placeholder="Password">
+					<md-error>Password is required</md-error>
 				</md-input-container>
 			</md-list-item>
 			<md-list-item class="center-list">
 				<md-input-container>
-					<input formControlName="userTelephone" mdInput placeholder="Telephone">
-					<md-error>This field is required</md-error>
+					<input type="number" formControlName="userTelephone" mdInput placeholder="Telephone">
+					<md-error>Telephone is required</md-error>
 				</md-input-container>
 			</md-list-item>
 			<md-list-item class="center-list">
 				<md-input-container>
-					<input formControlName="userCNIC" mdInput placeholder="CNIC">
-					<md-error>This field is required</md-error>
+					<input type="number" formControlName="userCNIC" mdInput placeholder="CNIC">
+					<md-error>CNIC is required</md-error>
 				</md-input-container>
 			</md-list-item>
 			<md-list-item class="center-list">
 				<md-input-container>
-					<input formControlName="userAddress" mdInput placeholder="Address">
-					<md-error>This field is required</md-error>
+					<input type="text" formControlName="userAddress" mdInput placeholder="Address">
+					<md-error>Address is required</md-error>
 				</md-input-container>
 			</md-list-item>
 
-			<!--<md-list-item>Item 3</md-list-item>-->
+
 		</md-list>
 		<div style="text-align:center">
-			<button md-button color="primary" [disabled]="!this.signupForm.valid" (click)="submit()">SUBMIT</button>
+			<button md-button md-raised-button color="primary" [disabled]="!this.signupForm.valid" (click)="submit()">SUBMIT</button>
 		</div>
 	</form>
 </md-card>

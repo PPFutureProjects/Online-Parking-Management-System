@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators,FormControl,FormGroupDirective,NgForm } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
 
 import { AuthService } from "../providers/auth.service";
-
+import { AngularFireAuth } from 'angularfire2/auth';
+import { Router } from "@angular/router";
 
 @Component({
 	selector: 'app-login',
@@ -13,36 +14,54 @@ export class LoginComponent implements OnInit {
 	loginForm: FormGroup;
 	public valid = true;
 	showSpinner = false;
-	// isDeterminate = true;
 	color = 'primary';
 	mode = 'determinate';
 	value = 50;
 
 
 	constructor(private fb: FormBuilder,
-		private authService: AuthService) { }
+		private authService: AuthService,
+		private afAuth : AngularFireAuth,
+		private router : Router) { }
 
 	ngOnInit() {
 
 		this.loginForm = this.fb.group({
-			userEmail: [null,Validators.required],
-			userPassword: [null,Validators.required]
+			userEmail: [null, Validators.required],
+			userPassword: [null, Validators.required]
 		})
 
-	
-	}
-	//  myErrorStateMatcher(control: FormControl, form: FormGroupDirective | NgForm): boolean {
-  // Error when invalid control is dirty, touched, or submitted
-//   const isSubmitted = form && form.submitted;
-//   return !!(control.invalid && (control.dirty || control.touched || isSubmitted));
-// }
 
+	}
+
+adminUid;
+storage;
 	submit() {
-		// console.log(this.loginForm.value);
 
 		this.authService.emailLogin(this.loginForm.value.userEmail, this.loginForm.value.userPassword)
-			.then((succes) => {
-				this.showSpinner = true;
+			.then((login) => {
+				this.authService.getUserProfile().subscribe((profile) => {
+					console.log(profile);
+					if (profile == null) {
+						alert("You Are Blocked By Admin");
+						this.authService.signOut();
+					}
+				this.adminUid = this.afAuth.auth.currentUser.uid;
+				 if (this.adminUid == 'D6JNpT6cTtfOilIKV7cp3u1tsP42') {
+					this.router.navigate(['/admin'])
+					localStorage.setItem('adminUid', this.adminUid);
+				}
+				else if (this.adminUid !== 'D6JNpT6cTtfOilIKV7cp3u1tsP42') {
+					localStorage.setItem('firebaseToken', this.afAuth.auth.currentUser.uid);
+					this.storage = localStorage.getItem('firebaseToken');
+					// console.log(this.storage);
+
+
+					this.router.navigate(['/dashboard']);
+				}
+
+					
+				})
 			})
 
 	}

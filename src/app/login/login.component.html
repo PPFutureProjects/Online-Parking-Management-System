@@ -1,45 +1,42 @@
 <md-toolbar color="primary">
 
-  Parking-Management System
-  <span class="example-spacer"></span>
-  <button md-button  routerLink="/app-signup">SIGN UP</button>
+	Parking-Management System
+	<span class="example-spacer"></span>
+	<button md-button routerLink="/app-signup">SIGN UP</button>
 
 </md-toolbar>
-<h3 class="page-heading" >LOGIN</h3>
-<hr class="hr" >
-                     
-       
+<h3 class="page-heading">LOGIN</h3>
+<hr class="hr">
+
+
 
 
 <md-card style="width: 400px;margin: 0 auto;">
-  <form [formGroup]="loginForm">
-  <md-list>
+	<form [formGroup]="loginForm">
+		<md-list>
 
-    <md-list-item class="center-list" >
-      <md-input-container>
-        <input formControlName="userEmail"  mdInput placeholder="Email" >
-	<md-error>This field is required</md-error>  
-	</md-input-container>
-    </md-list-item>
+			<md-list-item class="center-list">
+				<md-input-container>
+					<input type="email" formControlName="userEmail" mdInput placeholder="Email">
+					<md-error>Email is required</md-error>
+				</md-input-container>
+			</md-list-item>
 
 
-    
-    <md-list-item class="center-list">
-      <md-input-container>
-        <input formControlName="userPassword" mdInput placeholder="Password" >
-	     <md-error>This field is required</md-error>   
-	</md-input-container>
-    </md-list-item>
 
-    <!--<md-list-item>Item 3</md-list-item>-->
-  </md-list>
-  <div style="text-align:center">
-  <button md-button color="primary" [disabled]="!loginForm.valid" (click)="submit()">SUBMIT</button>
-  </div>
-  
-  </form>
- 
+			<md-list-item class="center-list">
+				<md-input-container>
+					<input type="password" formControlName="userPassword" mdInput placeholder="Password">
+					<md-error>password is required</md-error>
+				</md-input-container>
+			</md-list-item>
+
+
+		</md-list>
+		<div style="text-align:center">
+			<button md-raised-button color="primary" [disabled]="!loginForm.valid" (click)="submit()">SUBMIT</button>
+		</div>
+
+	</form>
+
 </md-card>
- <!--<md-spinner [mode]="isDeterminate" ></md-spinner>-->
-
-

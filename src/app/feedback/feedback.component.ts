@@ -15,7 +15,7 @@ import { FeedbackService } from "../providers/feedback.service";
 })
 export class FeedbackComponent implements OnInit {
 	items: FirebaseObjectObservable<any>;
-	fetchUserChat : FirebaseListObservable<any>;
+	fetchUserChat: FirebaseListObservable<any>;
 	userName;
 
 	constructor(private afAuth: AngularFireAuth,
@@ -24,32 +24,25 @@ export class FeedbackComponent implements OnInit {
 		private authService: AuthService) { }
 
 	ngOnInit() {
-     this.fetchUserChat = this.db.list('feedback/' + this.authService.currentUserId);
+		this.fetchUserChat = this.db.list('feedback/' + this.authService.currentUserId);
 	}
 	submitFeedback(userFeedback) {
-		
 
-		// this.getUserName()
+
 
 		this.items = this.db.object('/users/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
 		this.items.subscribe(snapshot => {
-			console.log(snapshot.key)
-			console.log(snapshot.val().userName);
+			// console.log(snapshot.key)
+			// console.log(snapshot.val().userName);
 			this.userName = snapshot.val().userName;
 			this.feedbackService.userFeedback(userFeedback, this.userName)
-			// snapshot.forEach(snapshot => {
-			// 	console.log(snapshot.key);
-			// 	console.log(snapshot.val());
-				
-				
-			// });
-		});
-	
-	}
-	// getUserName() {
-	// 	console.log('adasd');
 
-	// }
+
+
+		});
+
+	}
+
 	signOut() {
 		this.authService.signOut()
 	}

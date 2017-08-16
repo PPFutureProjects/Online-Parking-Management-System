@@ -2,9 +2,13 @@
 
 	Parking-Management System
 	<span class="example-spacer"></span>
-	<button md-button  routerLink="../app-my-bookings">MY BOOKINGS</button>
-	<button md-button  routerLink="../app-feedback">FEEDBACK</button>
-	<button md-button  (click)="signOut()">SIGN OUT</button>
+	<div>
+		<button md-button routerLink="/dashboard">HOME</button>
+		<button md-button routerLink="/dashboard/app-my-bookings">MY BOOKINGS</button>
+		<button md-button routerLink="/dashboard/app-feedback">FEEDBACK</button>
+		<button md-button routerLink="/dashboard/app-update-profile">UPDATE PROFILE</button>
+		<button md-button (click)="signOut()">SIGN OUT</button>
+	</div>
 
 
 </md-toolbar>
@@ -15,7 +19,7 @@
 		<md-list>
 			<md-list-item style="margin-top:40px">
 				<md-input-container style="width : 200%">
-					<input  mdInput placeholder="update name"  formControlName="userName">
+					<input mdInput placeholder="update name" formControlName="userName">
 				</md-input-container>
 			</md-list-item>
 			<md-list-item style="margin-top:40px">
@@ -24,13 +28,13 @@
 				</md-input-container>
 			</md-list-item>
 			<md-list-item style="margin-top:40px">
-				
-			
-			<md-input-container style="width : 200%"> 
-			<input  mdInput placeholder="Email"  type="email" value="{{usersObject.userEmail}}"  disabled>		 
-			  </md-input-container>
-			  	
-		</md-list-item >
+
+
+				<md-input-container style="width : 200%">
+					<input mdInput placeholder="Email" type="email" value="{{usersObject.userEmail}}" disabled>
+				</md-input-container>
+
+			</md-list-item>
 			<md-list-item style="margin-top:40px">
 				<md-input-container style="width : 200%">
 					<input mdInput placeholder="Update CNIC" value="{{usersObject.userCNIC}}" formControlName="userCNIC">
@@ -48,7 +52,7 @@
 			</md-list-item>
 			<md-list-item style="margin-top:40px">
 				<md-card-actions style="width : 200%;text-align : center">
-					<button md-button (click)="submit()">SUBMIT</button>
+					<button md-raised-button color="primary" (click)="submit()">SUBMIT</button>
 				</md-card-actions>
 			</md-list-item>
 		</md-list>

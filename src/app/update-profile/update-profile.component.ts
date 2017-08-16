@@ -15,11 +15,12 @@ import { AuthService } from "../providers/auth.service";
 export class UpdateProfileComponent implements OnInit {
 
 	users: FirebaseObjectObservable<any>;
+    userUpdateForm: FormGroup;
 
-	userUpdateForm: FormGroup;
 	constructor(private db: AngularFireDatabase,
 		private authService: AuthService,
 		private fb: FormBuilder) { }
+
 	usersObject = {
 
 		userName: '',
@@ -44,19 +45,9 @@ export class UpdateProfileComponent implements OnInit {
 		this.users = this.db.object('users/' + this.authService.currentUserId, { preserveSnapshot: true });
 		this.users
 			.subscribe(snapshot => {
-				// snapshot.forEach(snapshot => {
-				// this.usersObject = {
-
-				// 	userName: '',
-				// 	userLastName: '',
-				// 	userEmail: '',
-				// 	userCNIC: '',
-				// 	userAddress: '',
-				// 	userTelephone: ''
-
-				// }
-				console.log(snapshot.key)
-				console.log(snapshot.val());
+		
+				// console.log(snapshot.key)
+				// console.log(snapshot.val());
 				this.usersObject.userName = snapshot.val().userName;
 				this.usersObject.userLastName = snapshot.val().userLastName;
 				this.usersObject.userEmail = snapshot.val().userEmail;
@@ -71,23 +62,11 @@ export class UpdateProfileComponent implements OnInit {
 					userAddress: this.usersObject.userAddress,
 					userTelephone: this.usersObject.userTelephone
 				})
-				// this.usersArray.push(this.usersObject);
-				// console.log(this.usersArray);
-
-
-
-				// });   
+			  
 			})
 	}
 
 	submit() {
-		this.authService.demoFunc(this.userUpdateForm.value)
-		console.log(this.authService.demoFunc2);
-		
-		console.log(this.authService.currentUserId);
-
-		
-		console.log(this.userUpdateForm.value);
 		
 		this.users = this.db.object('users/' + this.authService.currentUserId);
 		this.users.update({userName : this.userUpdateForm.value.userName, userLastName : this.userUpdateForm.value.userLastName,
