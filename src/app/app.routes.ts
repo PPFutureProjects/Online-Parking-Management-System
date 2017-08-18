@@ -35,7 +35,7 @@ const routing: Routes = [
 
 	},
 	{
-		path: 'admin', component: RootAdminComponent,
+		path: 'admin', component: RootAdminComponent, canActivate: [AuthGuardGuard], 
 		children: [
 			{ path: '', component: AdminComponent },
 			{ path: 'app-all-users', component: AllUsersComponent },

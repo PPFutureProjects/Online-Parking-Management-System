@@ -27,7 +27,7 @@ export class FeedbackComponent implements OnInit {
 		this.fetchUserChat = this.db.list('feedback/' + this.authService.currentUserId);
 	}
 
-
+userFeedback;
 	submitFeedback(userFeedback) {
 
 		this.items = this.db.object('/users/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });

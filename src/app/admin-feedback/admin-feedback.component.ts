@@ -41,10 +41,10 @@ export class AdminFeedbackComponent implements OnInit {
 		this.showFeedback();
 
 	let a = this.feedbackService.getChatUserName
-	console.log(a);
+	// console.log(a);
 
 	let b = this.feedbackService.getChatMessages
-    console.log(b);
+    // console.log(b);
 		
 	
 	}
@@ -58,17 +58,17 @@ export class AdminFeedbackComponent implements OnInit {
 				this.usersArray = []
 				snapshots.forEach(snapshot => {
 					// users uid in feedback
-					console.log(snapshot.key)
+					// console.log(snapshot.key)
 					this.usersUid = snapshot.key;
-					console.log(snapshot.val());
+					// console.log(snapshot.val());
 					this.usersArray.push(snapshot.val())
-					console.log(this.usersArray);
+					// console.log(this.usersArray);
 
 					snapshot.forEach(snapshot => {
 
-						console.log(snapshot.key)
+						// console.log(snapshot.key)
 						this.usersUid = snapshot.key;
-						console.log(snapshot.val());
+						// console.log(snapshot.val());
 						// this.usersArray.push(snapshot.val())
 
 

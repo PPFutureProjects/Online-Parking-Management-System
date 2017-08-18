@@ -75,8 +75,8 @@ export class AdminComponent implements OnInit {
 				this.parkingPlazaArray = [];
 				snapshots.forEach(snapshot => {
 
-					console.log(snapshot.key)
-					console.log(snapshot.val());
+					// console.log(snapshot.key)
+					// console.log(snapshot.val());
 					snapshot.forEach((snapshot) => {
 						this.parkingPlazaObject = {
 							parkingName: '',
@@ -87,8 +87,8 @@ export class AdminComponent implements OnInit {
 							timeDuration: '',
 
 						}
-						console.log(snapshot.key);
-						console.log(snapshot.val());
+						// console.log(snapshot.key);
+						// console.log(snapshot.val());
 
 
 						this.parkingPlazaObject.uid = snapshot.val().uid;
@@ -99,9 +99,9 @@ export class AdminComponent implements OnInit {
 						this.parkingPlazaObject.parkingName = snapshot.val().place;
 
 						// this.parkingPlazakeyArray.push(snapshot.key);
-						console.log(snapshot.val())
+						// console.log(snapshot.val())
 						this.parkingPlazaArray.push(this.parkingPlazaObject);
-						console.log('111111', this.parkingPlazaArray);
+						// console.log('111111', this.parkingPlazaArray);
 
 					})
 					// console.log(snapshot.val().uid);
@@ -116,8 +116,8 @@ export class AdminComponent implements OnInit {
 			.subscribe(snapshots => {
 				snapshots.forEach(snapshot => {
                    this.ChargedParkingArray = [];
-					console.log(snapshot.key);
-					console.log(snapshot.val());
+					// console.log(snapshot.key);
+					// console.log(snapshot.val());
 
 					snapshot.forEach((snapshot) => {
 						this.chargedParkingObject = {
@@ -129,8 +129,8 @@ export class AdminComponent implements OnInit {
 							timeDuration: '',
 						}
 
-						console.log(snapshot.key);
-						console.log(snapshot.val());
+						// console.log(snapshot.key);
+						// console.log(snapshot.val());
 
 
 						this.chargedParkingObject.uid = snapshot.val().uid;
@@ -142,7 +142,7 @@ export class AdminComponent implements OnInit {
 
 
 						this.ChargedParkingArray.push(this.chargedParkingObject);
-						console.log('22222', this.ChargedParkingArray);
+						// console.log('22222', this.ChargedParkingArray);
 					})
 
 
@@ -154,8 +154,8 @@ export class AdminComponent implements OnInit {
 			.subscribe(snapshots => {
 				this.CanttStaionArray = [];
 				snapshots.forEach(snapshot => {
-                console.log(snapshot.key)
-				console.log(snapshot.val())
+                // console.log(snapshot.key)
+				// console.log(snapshot.val())
 
 				snapshot.forEach((snapshot) => {
 				this.canttStationObject = {
@@ -166,8 +166,8 @@ export class AdminComponent implements OnInit {
 					slot: '',
 					timeDuration: '',
 				}
-				console.log(snapshot.key);
-				console.log(snapshot.val());
+				// console.log(snapshot.key);
+				// console.log(snapshot.val());
 					
 			
 					this.canttStationObject.uid = snapshot.val().uid;
@@ -177,7 +177,7 @@ export class AdminComponent implements OnInit {
 					this.canttStationObject.timeDuration = snapshot.val().timeDuration;
 					this.canttStationObject.parkingName = snapshot.val().place;
 					this.CanttStaionArray.push(this.canttStationObject);
-					console.log('3333', this.CanttStaionArray);
+					// console.log('3333', this.CanttStaionArray);
 
 					})
 				})
@@ -188,9 +188,9 @@ export class AdminComponent implements OnInit {
 	}
 
 	cancelBookingOfParkingPlaza(date, timeDuration, key,uid) {
-		console.log(key);
+		// console.log(key);
 
-		console.log(this.parkingPlazaArray);
+		// console.log(this.parkingPlazaArray);
 
 
 		this.fetchParingPlazaForCancel = this.db.list('/parking-plaza/' + uid, { preserveSnapshot: true });
@@ -207,8 +207,8 @@ export class AdminComponent implements OnInit {
 	}
 
 	cancelBookingForCanttStation(date, timeDuration, key, uid){
-		console.log(uid);
-		console.log(key);
+		// console.log(uid);
+		// console.log(key);
 		
 		
 		this.fetchCanttStaionForCancel = this.db.list('/cantt-station/' + uid , { preserveSnapshot: true });
