@@ -8,7 +8,6 @@ import { ParkingPlazaComponent } from './parking-plaza/parking-plaza.component';
 import { ChargedParkingComponent } from './charged-parking/charged-parking.component';
 import { CanttStationParkingComponent } from './cantt-station-parking/cantt-station-parking.component';
 import { RootDashboardComponent } from './root-dashboard/root-dashboard.component';
-import { BookingsComponent } from './bookings/bookings.component';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { AdminComponent } from './admin/admin.component';
 import { AllUsersComponent } from './all-users/all-users.component';
@@ -18,7 +17,7 @@ import { AdminFeedbackComponent } from './admin-feedback/admin-feedback.componen
 import { UpdateProfileComponent } from './update-profile/update-profile.component';
 
 const routing: Routes = [
-	{ path: '', component: LoginComponent },
+	{ path: '', component: LoginComponent, canActivate: [AuthGuardGuard] },
 	{ path: 'app-login', component: LoginComponent },
 	{ path: 'app-signup', component: SignupComponent },
 
@@ -29,7 +28,6 @@ const routing: Routes = [
 			{ path: 'parking-plaza', component: ParkingPlazaComponent },
 			{ path: 'charged-parking', component: ChargedParkingComponent },
 			{ path: 'cantt-station-parking', component: CanttStationParkingComponent },
-			{ path: 'app-bookings', component: BookingsComponent },
 			{ path: 'app-my-bookings', component: MyBookingsComponent },
 			{ path: 'app-feedback', component: FeedbackComponent },
 			{ path: 'app-update-profile', component: UpdateProfileComponent }

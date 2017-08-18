@@ -14,31 +14,31 @@ export class AuthGuardGuard implements CanActivate {
 	canActivate(
 		next: ActivatedRouteSnapshot,
 		state: RouterStateSnapshot): Observable<boolean> | boolean {
-			return this.afAuth.authState.map(authState => {
-      if (!authState || authState.email != 'admin@admin.com') this.router.navigate(['dashboard']);
-      return authState != null;
-    });
+	// 		return this.afAuth.authState.map(authState => {
+    //   if (!authState || authState.email != 'admin@admin.com') this.router.navigate(['dashboard']);
+    //   return authState != null;
+    // });
 
-		// return this.afAuth.authState
-		// 	.take(1)
-		// 	.map(user => !!user)
+		return this.afAuth.authState
+			.take(1)
+			.map(user => !!user)
 			
 			
-		// 	.do(loggedIn => {
-		// 		// if (loggedIn){
-		// 		// 	this.router.navigate(['/dashboard'])
-		// 		// }
-		// 		 if (!loggedIn) {
+			.do(loggedIn => {
+				// if (loggedIn){
+				// 	this.router.navigate(['/dashboard'])
+				// }
+				 if (!loggedIn) {
 
-		// 			 console.log(loggedIn)
-		// 			console.log('access denied')
-		// 			this.router.navigate(['/app-login']);
-		// 		}
+					//  console.log(loggedIn)
+					// console.log('access denied')
+					this.router.navigate(['/app-login']);
+				}
 				// else { 
 				// 	this.router.navigate(['/dashboard'])
 				// }
 
-			// })
+			})
 
 	}
 }

@@ -31,6 +31,13 @@ export class LoginComponent implements OnInit {
 			userPassword: [null, Validators.required]
 		})
 
+		if(localStorage.getItem('adminUid')){
+			this.router.navigate(['/admin'])
+		}
+		else if(localStorage.getItem('firebaseToken')){
+        this.router.navigate(['/dashboard'])
+		}
+
 
 	}
 
@@ -41,12 +48,15 @@ storage;
 		this.authService.emailLogin(this.loginForm.value.userEmail, this.loginForm.value.userPassword)
 			.then((login) => {
 				this.authService.getUserProfile().subscribe((profile) => {
-					console.log(profile);
-					if (profile == null) {
+					// console.log(profile);
+					if (profile == null && this.afAuth.auth.currentUser.email != 'admin@admin.com') {
 						alert("You Are Blocked By Admin");
 						this.authService.signOut();
 					}
-				this.adminUid = this.afAuth.auth.currentUser.uid;
+					if(profile != null && this.afAuth.auth.currentUser.email != 'admin@admin.com'){
+						this
+					}
+				  this.adminUid = this.afAuth.auth.currentUser.uid;
 				 if (this.adminUid == 'D6JNpT6cTtfOilIKV7cp3u1tsP42') {
 					this.router.navigate(['/admin'])
 					localStorage.setItem('adminUid', this.adminUid);

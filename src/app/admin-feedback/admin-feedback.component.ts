@@ -55,6 +55,7 @@ export class AdminFeedbackComponent implements OnInit {
 		this.showUsers = this.db.list('/feedback', { preserveSnapshot: true });
 		this.showUsers
 			.subscribe(snapshots => {
+				this.usersArray = []
 				snapshots.forEach(snapshot => {
 					// users uid in feedback
 					console.log(snapshot.key)

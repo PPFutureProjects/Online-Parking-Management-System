@@ -26,17 +26,18 @@ export class FeedbackComponent implements OnInit {
 	ngOnInit() {
 		this.fetchUserChat = this.db.list('feedback/' + this.authService.currentUserId);
 	}
+
+
 	submitFeedback(userFeedback) {
-
-
 
 		this.items = this.db.object('/users/' + this.afAuth.auth.currentUser.uid, { preserveSnapshot: true });
 		this.items.subscribe(snapshot => {
 			// console.log(snapshot.key)
 			// console.log(snapshot.val().userName);
 			this.userName = snapshot.val().userName;
+			if(userFeedback.length > 0)
 			this.feedbackService.userFeedback(userFeedback, this.userName)
-
+			userFeedback = "";
 
 
 		});

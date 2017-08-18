@@ -48,7 +48,7 @@
 
 		</li>
 	<span *ngIf="chat.type == 'user'" style="font-size : 12px;font-family:sans-serif;float : left;border-radius : 9px;padding : 5px 10px">  {{chat.name}}</span>
-	  <li *ngIf="chat.type == 'user'" style="padding : 10px;list-style: none;width : 90%;color : black;margin-bottom : 5px;overflow : hidden; background-color: lightgrey;  border-top-right-radius: 12px; border-bottom-left-radius: 12px">
+	  <li *ngIf="chat.type == 'user'" style="font-family:sans-serif;padding : 10px;list-style: none;width : 90%;color : black;margin-bottom : 5px;overflow : hidden; background-color: lightgrey;  border-top-right-radius: 12px; border-bottom-left-radius: 12px">
 		<!-- <span style="float : left;border-radius : 9px;padding : 5px 10px">  {{chat.name}}</span> <br> <br> -->
 		<span style="float : left;border-radius : 9px;padding : 5px 10px"> {{chat.message}}</span>
 	  </li>
@@ -60,7 +60,7 @@
 	<!-- <div style="text-align : center;margin-top : 20%">
 		<textarea [(ngModel)]="adminFeedback" name="styled-textarea" id="styled" onfocus="this.value=''">Enter your feedback here...</textarea>
 	</div> -->
-	<div style="padding : 10px"></div> 
+	<!--<div style="padding : 10px"></div> 
 	<p style="width: 30%;margin: 0 auto;">
     <md-input-container class="example-full-width">
       <textarea style="font-family : sans-serif" mdInput placeholder="type your feedback here" [(ngModel)]="userFeedback"></textarea>
@@ -68,9 +68,20 @@
 </p>
 	<div style="text-align : center">
 		<button [disabled]="!adminFeedback" md-button color="primary" (click)="submitFeedback(adminFeedback)">Submit</button>
+	</div>-->
+
+
+
+
+<div style="padding : 10px"></div>
+	<p style="width: 30%;margin: 0 auto;">
+		<md-input-container class="example-full-width">
+			<textarea style="font-family : sans-serif" mdInput placeholder="type your feedback here" [(ngModel)]="userFeedback"></textarea>
+		</md-input-container>
+	</p>
+	<div style="text-align : center">
+		<button [disabled]="!userFeedback" md-button color="primary" (click)="submitFeedback(userFeedback)">Submit</button>
 	</div>
-
-
 
 
 </div>

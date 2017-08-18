@@ -1,8 +1,11 @@
+
+
+
+
 <md-toolbar color="primary">
 
 	Parking-Management System
 	<span class="example-spacer"></span>
-
 	<div>
 		<button md-button routerLink="/dashboard">HOME</button>
 		<button md-button routerLink="/dashboard/app-my-bookings">MY BOOKINGS</button>
@@ -10,6 +13,7 @@
 		<button md-button routerLink="/dashboard/app-update-profile">UPDATE PROFILE</button>
 		<button md-button (click)="signOut()">SIGN OUT</button>
 	</div>
+
 </md-toolbar>
 <div *ngIf="showCanttStation">
 	<div style="text-align :center">
@@ -31,7 +35,7 @@
 				</md-select>
 				<br><br><br>
 			</div>
-			<div *ngIf="isReservedHours" style="margin: 3%;;padding : 40px">
+			<div *ngIf="isReservedHours" style="margin: 3%;padding : 40px">
 				<md-select style="width : 14%" placeholder="select reserved hours" (change)="onReservedHrsChange($event)" #t formControlName="reservedHoursOptions">
 					<md-option *ngFor="let reservedHour of reserved_hours" #c [value]="reservedHour.value">
 						{{ reservedHour.viewValue }} {{t.value}}
@@ -41,13 +45,20 @@
 				{{t.value}}
 				<br><br><br>
 			</div>
+
 			<div *ngIf="isSubmitButton">
 				<button style="width: 200px" color="primary" md-raised-button (click)="submit()">SUBMIT</button>
 			</div>
+
+
+
 		</form>
 
 	</div>
 </div>
+
+
+
 <div *ngIf="allSlots">
 	<div style="margin: 10px">
 		<a md-mini-fab (click)="back()"><i class="material-icons">arrow_back</i></a>
@@ -58,6 +69,7 @@
 
 
 			<div *ngIf="a.reserved == false" style="background:yellow;display : inline;text-align : center">
+
 				<button style="text-align : center" color="primary" style="margin : 10px" md-raised-button (click)="slots(a.slotNumber)">Slot {{a.slotNumber}}</button>
 				<br *ngIf="(i % 3 == 2)">
 			</div>
@@ -65,6 +77,7 @@
 
 
 			<div *ngIf="a.reserved == true" style="display : inline">
+
 				<button style="color : black; background : yellow" md-raised-button>Booked</button>
 				<br *ngIf="(i % 3 == 2)">
 			</div>

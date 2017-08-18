@@ -45,7 +45,6 @@ import { ParkingPlazaComponent } from './parking-plaza/parking-plaza.component';
 import { ChargedParkingComponent } from './charged-parking/charged-parking.component';
 import { CanttStationParkingComponent } from './cantt-station-parking/cantt-station-parking.component';
 import { RootDashboardComponent } from './root-dashboard/root-dashboard.component';
-import { BookingsComponent } from './bookings/bookings.component';
 import { MyBookingsComponent } from './my-bookings/my-bookings.component';
 import { AdminComponent } from './admin/admin.component';
 import { AllUsersComponent } from './all-users/all-users.component';
@@ -65,7 +64,6 @@ import { UpdateProfileComponent } from './update-profile/update-profile.componen
 		ChargedParkingComponent,
 		CanttStationParkingComponent,
 		RootDashboardComponent,
-		BookingsComponent,
 		MyBookingsComponent,
 		AdminComponent,
 		AllUsersComponent,

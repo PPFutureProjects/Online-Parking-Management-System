@@ -202,7 +202,7 @@ export class ParkingPlazaComponent implements OnInit {
 		
 		this.obj = { date: '', slotNum: '', timeDuration: '' };
 		this.slotNumber = slotNumber
-		localStorage.setItem('slot', this.slotNumber);
+		// localStorage.setItem('slot', this.slotNumber);
 		// console.log(this.parkingPlazaForm.value);
 		// console.log(this.slot);
 		// console.log(this.times[4].viewValue);

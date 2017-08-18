@@ -34,6 +34,9 @@ export class CanttStationParkingComponent implements OnInit {
 	slot;
 	allSlots;
 	month;
+	slotNumber;
+   currentNode;
+   userUid; 
 
 	items: FirebaseListObservable<any>;
 	sendUserBookingData: FirebaseListObservable<any>;
@@ -92,39 +95,14 @@ export class CanttStationParkingComponent implements OnInit {
 		private router: Router,
 	) {
 
-
 		this.canttStationParkingForm = this.fb.group({
 			timeOptions: '',
 			reservedHoursOptions: '',
 			dateOptions: '',
-
 		});
 
-
 	}
-
-	ngOnInit() {
-
-	}
-
-	isTime = false;
-	isReservedHours = false;
-	isSubmitButton = false;
-
-	onDateChange(event: Event) {
-
-		this.isTime = true;
-	}
-	onTimeChange(event: Event) {
-		this.isReservedHours = true;
-
-	}
-
-	onReservedHrsChange(event: Event) {
-		this.isSubmitButton = true;
-	}
-
-
+	ngOnInit() { }
 
 
 	submit() {
@@ -133,35 +111,34 @@ export class CanttStationParkingComponent implements OnInit {
 		}
 
 
-		// console.log("formmmmm",this.canttStationParkingForm.value);
-
+		// console.log("formmmmm", this.canttStationParkingForm.value);
 		this.date = this.canttStationParkingForm.value.dateOptions.toString();
 		this.date = this.date.slice(4, 15);
-		//  console.log("dateeee",this.date);
+		// console.log("dateeee", this.date);
 		this.initializeTime = parseInt(this.canttStationParkingForm.value.timeOptions);
 		this.reservedHours = parseInt(this.canttStationParkingForm.value.reservedHoursOptions);
 		this.totalBookingHours = this.initializeTime + this.reservedHours;
-		// console.log("bookinggggg",this.totalBookingHours);
+		// console.log("bookinggggg", this.totalBookingHours);
 
 		this.TimeDuration = this.initializeTime + " to " + this.totalBookingHours;
 		// console.log(this.allUserstimeDateAndSlotArray);
 		this.fetchAllUsers = this.db.object('/cantt-station', { preserveSnapshot: true });
 		this.fetchAllUsers.subscribe(snapshots => {
 			snapshots.forEach(element => {
-				// console.log("keyyyyyy",element.key);
+				// console.log("keyyyyyy", element.key);
 				element.forEach(snapshot => {
-					// console.log("snapshottt",snapshot.key);
+					// console.log("snapshottt", snapshot.key);
 					//	console.log("valueeee",snapshot.val());
 					if (this.date == snapshot.val().selectedDate) {
 						// console.log('if1');
 						if (this.initializeTime == snapshot.val().startTime) {
-							//  console.log('if2');
+							// console.log('if2');
 							//  console.log(snapshot.val());
 
 							this.buttons[(snapshot.val().slot - 1)].reserved = true;
 						}
 						else if (this.initializeTime != snapshot.val().startTime) {
-							//  console.log('if2 else');
+							// console.log('if2 else');
 							if ((snapshot.val().startTime > this.initializeTime && this.totalBookingHours > snapshot.val().startTime) || (this.initializeTime > snapshot.val().startTime && this.initializeTime < snapshot.val().endTime)) {
 								// console.log('if3');
 								this.buttons[(snapshot.val().slot - 1)].reserved = true;
@@ -176,50 +153,87 @@ export class CanttStationParkingComponent implements OnInit {
 		})
 
 	}
-	back() {
-		this.allSlots = false;
-		this.showCanttStation = true;
+
+	
+	isTime = false;
+	isReservedHours = false;
+	isSubmitButton = false;
+
+
+
+
+
+	
+
+	onDateChange(event: Event) {
+
+		// console.log(event);
+
+
+		this.isTime = true;
+	}
+	onTimeChange(event: Event) {
+		this.isReservedHours = true;
 
 	}
+
+	onReservedHrsChange(event: Event) {
+		this.isSubmitButton = true;
+	}
+
+
+	back() {
+
+		this.allSlots = false;
+		this.showCanttStation = true;
+	}
+	
 
 	obj: {
 		date: '',
 		slotNum: '',
 		timeDuration: '',
 	}
+ 
+
 	slots(slotNumber) {
+		
 		this.obj = { date: '', slotNum: '', timeDuration: '' };
+		this.slotNumber = slotNumber
+		// localStorage.setItem('slot', this.slotNumber);
 		// console.log(this.canttStationParkingForm.value);
-
-
+		// console.log(this.slot);
+		// console.log(this.times[4].viewValue);
 		this.date = this.canttStationParkingForm.value.dateOptions.toString();
 		this.date = this.date.slice(4, 15);
 		this.initializeTime = parseInt(this.canttStationParkingForm.value.timeOptions);
 		this.reservedHours = parseInt(this.canttStationParkingForm.value.reservedHoursOptions);
 		this.totalBookingHours = this.initializeTime + this.reservedHours;
 
-		this.TimeDuration = this.initializeTime + " to " + this.totalBookingHours;
+		this.TimeDuration = this.initializeTime + ":00 " + " to " + this.totalBookingHours + ":00 ";
+		this.currentNode = 'cantt-station';
+		this.userUid = this.afAuth.auth.currentUser.uid;
 
 		this.sendUserBookingData = this.db.list('cantt-station' + "/" + this.afAuth.auth.currentUser.uid);
 		this.sendUserBookingData.push({
-			place: 'cantt-station', uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date,
+			slotBook: false, place: 'cantt-station', uid: this.afAuth.auth.currentUser.uid, selectedDate: this.date,
 			startTime: this.initializeTime, endTime: this.totalBookingHours, timeDuration: this.TimeDuration, slot: slotNumber
 		})
 
 		this.showCanttStation = false;
 
-
 		this.obj.date = this.date;
 		this.obj.slotNum = slotNumber;
 		this.obj.timeDuration = this.TimeDuration;
-
+		
 		this.userBookingArray.push(this.obj);
-
+	
 
 		this.getCurrentBooking(this.date, this.TimeDuration);
+		this.allSlots = false;
 		this.router.navigate(['/dashboard/app-my-bookings'])
-	}
 
+	}
 
 	getCurrentBooking(date, timeDuration) {
 
@@ -228,7 +242,7 @@ export class CanttStationParkingComponent implements OnInit {
 		this.fetchBooking
 			.subscribe(snapshots => {
 				snapshots.forEach(snapshot => {
-					// console.log(snapshot.key)
+					// console.log(snapshot.key);
 					if (snapshot.val().selectedDate == date && snapshot.val().timeDuration == timeDuration) {
 						// Current booking key
 						this.currentBookingKey = snapshot.key
@@ -240,7 +254,6 @@ export class CanttStationParkingComponent implements OnInit {
 
 
 	}
-
 
 	signOut() {
 		this.authService.signOut();
